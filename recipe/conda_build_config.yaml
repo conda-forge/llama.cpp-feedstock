@@ -2,5 +2,6 @@ MACOSX_DEPLOYMENT_TARGET:   # [osx and x86_64]
 - '11.0'                    # [osx and x86_64]
 
 blas_impl:
-  - mkl        # [linux or win]
+  - mkl        # [(linux and not arm64) or win]
+  - openblas   # [linux and arm64]
   - accelerate # [osx]
