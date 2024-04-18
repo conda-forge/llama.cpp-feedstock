@@ -55,8 +55,8 @@ build:
     - cmake --install build 
   
   missing_dso_whitelist:
-    - "*/nvcuda.dll"   # [win]
-    - "*/libcuda.so.1" # [linux]
+    - "*/nvcuda.dll"    # [win]
+    - "*/libcuda.so.1"  # [linux]
 
 requirements:
   build:
