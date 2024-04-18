@@ -9,7 +9,6 @@ source:
   url: https://github.com/ggerganov/llama.cpp/archive/b{{ version.split(".")[-1] }}.tar.gz
   sha256: 02953cc03455bac1fcb337ff841600654712f6f6bbed54c31078eead530ff1fa
   patches:
-    - osx-64-pick-discrete.patch  # [osx]
     - mkl.patch                   # [blas_impl == "mkl"]
 
 build:
@@ -54,6 +53,10 @@ build:
     - cmake -S . -B build -G Ninja ${CMAKE_ARGS} ${LLAMA_ARGS}  # [unix]
     - cmake --build build
     - cmake --install build 
+  
+  missing_dso_whitelist:
+    - "*/nvcuda.dll"   # [win]
+    - "*/libcuda.so.1" # [linux]
 
 requirements:
   build:
