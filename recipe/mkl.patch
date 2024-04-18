@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 19fdfa46..5ca4f1bc 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -355,7 +355,7 @@ if (LLAMA_BLAS)
+ 
+         add_compile_definitions(GGML_USE_OPENBLAS)
+ 
+-        if (${BLAS_INCLUDE_DIRS} MATCHES "mkl" AND (${LLAMA_BLAS_VENDOR} MATCHES "Generic" OR ${LLAMA_BLAS_VENDOR} MATCHES "Intel"))
++        if ((${BLAS_INCLUDE_DIRS} MATCHES "mkl" AND ${LLAMA_BLAS_VENDOR} MATCHES "Generic") OR ${LLAMA_BLAS_VENDOR} MATCHES "Intel")
+             add_compile_definitions(GGML_BLAS_USE_MKL)
+         endif()
+ 
