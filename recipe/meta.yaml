@@ -80,6 +80,7 @@ requirements:
 
     - llvm-openmp                                   # [linux and cuda_compiler_version == "None" and blas_impl == "mkl"]
     - __cuda                                        # [cuda_compiler_version != "None"]
+    - cuda-nvcc-tools                               # [(cuda_compiler_version or "").startswith("12")]
 
 test:
   requires:
