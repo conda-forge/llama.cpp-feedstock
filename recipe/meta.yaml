@@ -79,6 +79,7 @@ requirements:
     - cuda-version {{ cuda_compiler_version }}      # [cuda_compiler_version != "None" and not (cuda_compiler_version or "").startswith("12")]
 
     - llvm-openmp                                   # [linux and cuda_compiler_version == "None" and blas_impl == "mkl"]
+    - __cuda                                        # [cuda_compiler_version != "None"]
 
 test:
   commands:
