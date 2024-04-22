@@ -83,8 +83,8 @@ requirements:
 
 test:
   commands:
-    - main --help
-    - server --help
+    - main --help                                   # [build_platform == target_platform]
+    - server --help                                 # [build_platform == target_platform]
 
 about:
   home: https://github.com/ggerganov/llama.cpp
