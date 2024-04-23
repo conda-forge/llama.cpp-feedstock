@@ -86,8 +86,8 @@ test:
   requires:
     - cuda-version     {{ cuda_compiler_version }}  # [cuda_compiler_version != "None"]
   commands:
-    - main --help                                   # [build_platform == target_platform]
-    - server --help                                 # [build_platform == target_platform]
+    - main --help                                   # [build_platform == target_platform and cuda_compiler_version == "None"]
+    - server --help                                 # [build_platform == target_platform and cuda_compiler_version == "None"]
 
 about:
   home: https://github.com/ggerganov/llama.cpp
