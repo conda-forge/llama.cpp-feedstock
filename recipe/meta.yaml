@@ -61,6 +61,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}                        # [cuda_compiler_version != "None"]
     - cmake
