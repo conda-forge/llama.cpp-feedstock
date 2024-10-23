@@ -9,13 +9,13 @@ channel_sources:
 channel_targets:
 - conda-forge main
 cuda_compiler:
-- nvcc
+- cuda-nvcc
 cuda_compiler_version:
-- '11.8'
+- '12.0'
 cxx_compiler:
 - vs2019
 mkl:
-- '2023'
+- '2024'
 target_platform:
 - win-64
 zip_keys:
