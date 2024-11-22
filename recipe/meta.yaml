@@ -1,5 +1,5 @@
 {% set name = "llama.cpp" %}
-{% set version = "0.0.2646" %}
+{% set version = "0.0.4153" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ggerganov/llama.cpp/archive/b{{ version.split(".")[-1] }}.tar.gz
-  sha256: 02953cc03455bac1fcb337ff841600654712f6f6bbed54c31078eead530ff1fa
+  sha256: 331d305e1f6314300a2d0f320da3eeb51f6ecc4aaa10c985e2b414fc012b793c
   patches:
     - mkl.patch                   # [blas_impl == "mkl"]
 
@@ -87,8 +87,8 @@ test:
   requires:
     - cuda-version     {{ cuda_compiler_version }}  # [cuda_compiler_version != "None"]
   commands:
-    - main --help                                   # [build_platform == target_platform and cuda_compiler_version == "None"]
-    - server --help                                 # [build_platform == target_platform and cuda_compiler_version == "None"]
+    - llama-cli --help                                   # [build_platform == target_platform and cuda_compiler_version == "None"]
+    - llama-server --help                                 # [build_platform == target_platform and cuda_compiler_version == "None"]
 
 about:
   home: https://github.com/ggerganov/llama.cpp
