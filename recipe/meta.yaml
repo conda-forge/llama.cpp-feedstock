@@ -22,6 +22,10 @@ build:
     - LLAMA_ARGS="${LLAMA_ARGS} -DLLAMA_{{ value }}"    # [unix]
     - set LLAMA_ARGS=%LLAMA_ARGS% -DLLAMA_{{ value }}   # [win]
     {%- endmacro %}
+    {% macro ggml_args(value) -%}
+    - LLAMA_ARGS="${LLAMA_ARGS} -DGGML_{{ value }}"    # [unix]
+    - set LLAMA_ARGS=%LLAMA_ARGS% -DGGML_{{ value }}   # [win]
+    {%- endmacro %}
     {% macro cmake_args(value) -%}
     - LLAMA_ARGS="${LLAMA_ARGS} -D{{ value }}"          # [unix]
     - set LLAMA_ARGS=%LLAMA_ARGS% -D{{ value }}         # [win]
@@ -29,20 +33,20 @@ build:
 
     {{ cmake_args("BUILD_SHARED_LIBS=ON") }}
 
-    {{ llama_args("NATIVE=OFF") }}      # [(osx and arm64) or win]
-    {{ llama_args("AVX=OFF") }}         # [osx and arm64]
-    {{ llama_args("AVX2=OFF") }}        # [osx and arm64]
-    {{ llama_args("FMA=OFF") }}         # [osx and arm64]
-    {{ llama_args("F16C=OFF") }}        # [osx and arm64]
-    {{ llama_args("METAL=ON") }}        # [osx and arm64]
-    {{ llama_args("METAL=OFF") }}       # [osx and x86_64]
-    {{ llama_args("ACCELERATE=ON") }}   # [osx]
+    {{ ggml_args("NATIVE=OFF") }}      # [(osx and arm64) or win]
+    {{ ggml_args("AVX=OFF") }}         # [osx and arm64]
+    {{ ggml_args("AVX2=OFF") }}        # [osx and arm64]
+    {{ ggml_args("FMA=OFF") }}         # [osx and arm64]
+    {{ ggml_args("F16C=OFF") }}        # [osx and arm64]
+    {{ ggml_args("METAL=ON") }}        # [osx and arm64]
+    {{ ggml_args("METAL=OFF") }}       # [osx and x86_64]
+    {{ ggml_args("ACCELERATE=ON") }}   # [osx]
 
-    {{ llama_args("CUDA=ON") }}                       # [cuda_compiler_version != "None"]
+    {{ ggml_args("CUDA=ON") }}                       # [cuda_compiler_version != "None"]
     {{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}  # [cuda_compiler_version != "None"]
 
-    {{ llama_args("BLAS=ON") }}                     # [not osx and cuda_compiler_version == "None"]
-    {{ llama_args("BLAS_VENDOR=Intel10_64_dyn") }}  # [not osx and cuda_compiler_version == "None" and blas_impl == "mkl"]
+    {{ ggml_args("BLAS=ON") }}                     # [not osx and cuda_compiler_version == "None"]
+    {{ ggml_args("BLAS_VENDOR=Intel10_64_dyn") }}  # [not osx and cuda_compiler_version == "None" and blas_impl == "mkl"]
 
     - echo $LLAMA_ARGS  # [unix]
     - set LLAMA_ARGS    # [win]
