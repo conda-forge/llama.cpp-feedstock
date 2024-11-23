@@ -8,8 +8,6 @@ package:
 source:
   url: https://github.com/ggerganov/llama.cpp/archive/b{{ version.split(".")[-1] }}.tar.gz
   sha256: 331d305e1f6314300a2d0f320da3eeb51f6ecc4aaa10c985e2b414fc012b793c
-  patches:
-    - mkl.patch                   # [blas_impl == "mkl"]
 
 build:
   number: 1
