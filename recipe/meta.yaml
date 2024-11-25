@@ -70,6 +70,7 @@ requirements:
     - git
     - ninja
     - pkgconfig
+    - libgomp      # [linux and not aarch64]
   host:
     # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
     - cuda-version     {{ cuda_compiler_version }}  # [cuda_compiler_version != "None"]
@@ -78,12 +79,14 @@ requirements:
 
     - blas-devel * *{{ blas_impl }}                 # [not osx and cuda_compiler_version == "None" and blas_impl == "mkl"]
     - mkl-devel {{ mkl }}                           # [not osx and cuda_compiler_version == "None" and blas_impl == "mkl"]
+    - libgomp      # [linux and not aarch64]
   run:
     - cuda-version {{ cuda_compiler_version }}      # [cuda_compiler_version != "None"]
 
     - llvm-openmp                                   # [linux]
     - __cuda                                        # [cuda_compiler_version != "None"]
     - cuda-nvcc-tools                               # [(cuda_compiler_version or "").startswith("12")]
+    - libgomp      # [linux and not aarch64]
 
 test:
   requires:
