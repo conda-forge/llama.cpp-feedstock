@@ -53,7 +53,8 @@ build:
 
     - cmake -S . -B build -G Ninja %CMAKE_ARGS% %LLAMA_ARGS%    # [win]
     - cmake -S . -B build -G Ninja ${CMAKE_ARGS} ${LLAMA_ARGS}  # [unix]
-    - cmake --build build
+    - cmake --build build [not win]
+    - cmake --build build -j1 [win]
     - cmake --install build 
   
   missing_dso_whitelist:
