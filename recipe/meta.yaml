@@ -70,7 +70,7 @@ requirements:
     - git
     - ninja
     - pkgconfig
-    - libgomp      # [linux and not aarch64]
+    - libgomp      # [linux]
   host:
     # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
     - cuda-version     {{ cuda_compiler_version }}  # [cuda_compiler_version != "None"]
