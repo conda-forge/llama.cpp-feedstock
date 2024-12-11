@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ggerganov/llama.cpp/archive/b{{ version.split(".")[-1] }}.tar.gz
-  sha256: 46642b3232b0bdcd1f7bd6e2ca3a5fc098a7a45aa7181afe978b79aa3c587dc7
+  sha256: 8dfa54a1b799ddfcf395a83ce24aa62c2b76c26bf7eeec70a02cf08e0635d0a9
 
 build:
   number: 1
