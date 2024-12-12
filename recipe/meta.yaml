@@ -45,6 +45,8 @@ build:
     - {{ ggml_args("CUDA=ON") }}                       # [cuda_compiler_version != "None"]
     - {{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}  # [cuda_compiler_version != "None"]
 
+    - {{ cmake_args("CUDA_FLAGS='-O1 -Xptxas -O1'") }}  # [win and cuda_compiler_version != "None"]
+
     - {{ ggml_args("BLAS=ON") }}                     # [not osx and cuda_compiler_version == "None"]
     - {{ ggml_args("BLAS_VENDOR=Intel10_64_dyn") }}  # [not osx and cuda_compiler_version == "None" and blas_impl == "mkl"]
 
@@ -53,8 +55,7 @@ build:
 
     - cmake -S . -B build -G Ninja %CMAKE_ARGS% %LLAMA_ARGS%    # [win]
     - cmake -S . -B build -G Ninja ${CMAKE_ARGS} ${LLAMA_ARGS}  # [unix]
-    - cmake --build build     # [not win or cuda_compiler_version == "None"]
-    - cmake --build build -j1 # [win and cuda_compiler_version != "None"]
+    - cmake --build build
     - cmake --install build 
   
   missing_dso_whitelist:
