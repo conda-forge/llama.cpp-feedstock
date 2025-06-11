@@ -1,0 +1,161 @@
+context:
+  name: llama.cpp
+  version: "0.0.2646"
+  build: 2
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
+  sha256: 02953cc03455bac1fcb337ff841600654712f6f6bbed54c31078eead530ff1fa
+  patches:
+    - if: blas_impl == "mkl"
+      then:
+        - mkl.patch
+
+build:
+  number: ${{ build }}
+  string: '{%- if cuda_compiler_version != "None" -%}cuda${{ cuda_compiler_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif (osx and x86_64) or cuda_compiler_version == "None" -%}cpu_${{ blas_impl }}_h${{ hash }}_${{ build }}{%- elif osx and arm64 -%}mps_h${{ hash }}_${{ build }}{%- endif -%}'
+
+  script:
+    - if: unix
+      then: |
+        echo hello
+        LLAMA_ARGS="-DLLAMA_BUILD_TESTS=OFF"
+        {%- macro llama_args(value) %}
+        LLAMA_ARGS="${LLAMA_ARGS} -DLLAMA_${{ value }}"
+        {%- endmacro %}
+        {%- macro cmake_args(value) -%}
+        LLAMA_ARGS="${LLAMA_ARGS} -D${{ value }}"
+        {%- endmacro %}
+        ${{ cmake_args("BUILD_SHARED_LIBS=ON") }}
+        {%- if osx and arm64 %}
+        ${{ llama_args("NATIVE=OFF") }}
+        ${{ llama_args("AVX=OFF") }}
+        ${{ llama_args("AVX2=OFF") }}
+        ${{ llama_args("FMA=OFF") }}
+        ${{ llama_args("F16C=OFF") }}
+        ${{ llama_args("METAL=ON") }}
+        ${{ llama_args("ACCELERATE=ON") }}
+        {%- endif %}
+        {%- if osx and x86_64 %}
+        ${{ llama_args("METAL=OFF") }}
+        ${{ llama_args("ACCELERATE=ON") }}
+        {%- endif %}
+        {%- if cuda_compiler_version != "None" %}
+        ${{ llama_args("CUDA=ON") }}
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
+        {%- endif %}
+        {%- if not osx and cuda_compiler_version == "None" %}
+        ${{ llama_args("BLAS=ON") }}
+        {%- if blas_impl == "mkl" %}
+        ${{ llama_args("BLAS_VENDOR=Intel10_64_dyn") }}
+        {%- endif %}
+        {%- endif %}
+
+        echo $LLAMA_ARGS
+        cmake -S . -B build -G Ninja ${CMAKE_ARGS} ${LLAMA_ARGS}
+        cmake --build build
+        cmake --install build
+    - if: win
+      then: |
+        echo hello
+        set LLAMA_ARGS=-DLLAMA_BUILD_TESTS=OFF
+        {% macro llama_args(value) -%}
+        set LLAMA_ARGS=%LLAMA_ARGS% -DLLAMA_${{ value }}
+        {%- endmacro %}
+        {% macro cmake_args(value) -%}
+        set LLAMA_ARGS=%LLAMA_ARGS% -D${{ value }}
+        {%- endmacro %}
+
+        ${{ cmake_args("BUILD_SHARED_LIBS=ON") }}
+        ${{ llama_args("NATIVE=OFF") }}
+
+        {%- if cuda_compiler_version == "None" %}
+        ${{ llama_args("BLAS=ON") }}
+        {%- if blas_impl == "mkl" %}
+        ${{ llama_args("BLAS_VENDOR=Intel10_64_dyn") }}
+        {%- endif %}
+        {%- endif %}
+
+        set LLAMA_ARGS
+        cmake -S . -B build -G Ninja %CMAKE_ARGS% %LLAMA_ARGS%
+        cmake --build build
+        cmake --install build
+  dynamic_linking:
+    missing_dso_allowlist:
+      - if: win
+        then:
+          - "*/nvcuda.dll"
+      - if: linux
+        then:
+          - "*/libcuda.so.1"
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib('c') }}
+    - ${{ compiler('cxx') }}
+    - if: cuda_compiler_version != "None"
+      then:
+        - ${{ compiler('cuda') }}
+    - cmake
+    - git
+    - ninja
+    - pkgconfig
+  host:
+    - if: cuda_compiler_version != "None"
+      then:
+        # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
+        - cuda-version ${{ cuda_compiler_version }}.*
+        - if: match(cuda_compiler_version, "12.*")
+          then:
+            - cuda-cudart-dev ${{ cuda_compiler_version }}.*
+            - libcublas-dev ${{ cuda_compiler_version }}.*
+
+    - if: (not osx) and (cuda_compiler_version == "None") and (blas_impl == "mkl")
+      then:
+        - blas-devel * *_${{ blas_impl }}
+        - mkl-devel ${{ mkl }}.*
+  run:
+    - if: cuda_compiler_version != "None"
+      then:
+        - cuda-version ${{ cuda_compiler_version }}.*
+        - __cuda
+        - if: match(cuda_compiler_version, "12.*")
+          then:
+            - cuda-nvcc-tools
+    - if: linux and (cuda_compiler_vedrsion == "None") and (blas_impl == "mkl")
+      then:
+        - llvm-openmp
+  run_constraints:
+    # whisper.cpp also vendors ggml
+    - whisper.cpp <0.0.0a0
+
+tests:
+  - if: (build_platform == target_platform) and (cuda_compiler_version == "None")
+    then:
+      - script:
+          - main --help
+          - server --help
+        requirements:
+          run:
+            - if: cuda_compiler_version != "None"
+              then:
+                - cuda-version ${{ cuda_compiler_version }}
+
+about:
+  homepage: https://github.com/ggml-org/llama.cpp
+  repository: https://github.com/ggml-org/llama.cpp
+  summary: Port of Facebook's LLaMA model in C/C++
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - jonashaag
+    - frankier
+    - sodre
+    - pavelzw
