@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
-  version: "0.0.2646"
-  build: 2
+  version: "5640"
+  build: 0
 
 package:
   name: ${{ name|lower }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
-  sha256: 02953cc03455bac1fcb337ff841600654712f6f6bbed54c31078eead530ff1fa
+  sha256: 46da578e92aa07899e34f294c4e7128f7525976a7769290ecefabc9950c2ad67
   patches:
     - if: blas_impl == "mkl"
       then:
