@@ -60,7 +60,7 @@ build:
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
         {%- endif %}
 
-        {%- if not osx and cuda_compiler_version == "None" %}
+        {%- if linux and x86_64 and cuda_compiler_version == "None" %}
         ${{ ggml_args("BLAS=ON") }}
 
         {%- if blas_impl == "mkl" %}
