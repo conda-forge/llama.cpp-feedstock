@@ -1,7 +1,7 @@
 blas_impl:
 - mkl
 c_compiler:
-- vs2019
+- vs2022
 c_stdlib:
 - vs
 channel_sources:
@@ -13,7 +13,7 @@ cuda_compiler:
 cuda_compiler_version:
 - None
 cxx_compiler:
-- vs2019
+- vs2022
 mkl:
 - '2024'
 target_platform:
