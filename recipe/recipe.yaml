@@ -12,6 +12,10 @@ source:
   sha256: 4e76e8a320d207bd5bfd75dae77d6e3b81dec950832a07a7e9441e30bcd95d96
 
 build:
+  skip:
+    # Skip building on Windows with CUDA because compile time is prohibitive.
+    - win and cuda_compiler_version != "None"
+
   number: ${{ build }}
   string: '{%- if cuda_compiler_version != "None" -%}cuda${{ cuda_compiler_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif (osx and x86_64) or cuda_compiler_version == "None" -%}cpu_${{ blas_impl }}_h${{ hash }}_${{ build }}{%- elif osx and arm64 -%}mps_h${{ hash }}_${{ build }}{%- endif -%}'
 
