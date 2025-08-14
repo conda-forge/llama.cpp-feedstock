@@ -155,6 +155,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - jjerphan
     - jonashaag
     - frankier
     - sodre
