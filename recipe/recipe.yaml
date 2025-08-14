@@ -160,11 +160,91 @@ requirements:
     - whisper.cpp <0.0.0a0
 
 tests:
+  # Test for presence of header files, libraries, and configuration files
+  - if: unix
+    then:
+      - script:
+          # Check binaries
+          - test -f "$PREFIX/bin/convert_hf_to_gguf.py"
+          - test -f "$PREFIX/bin/llama-batched"
+          - test -f "$PREFIX/bin/llama-batched-bench"
+          - test -f "$PREFIX/bin/llama-bench"
+          - test -f "$PREFIX/bin/llama-cli"
+          - test -f "$PREFIX/bin/llama-convert-llama2c-to-ggml"
+          - test -f "$PREFIX/bin/llama-cvector-generator"
+          - test -f "$PREFIX/bin/llama-embedding"
+          - test -f "$PREFIX/bin/llama-eval-callback"
+          - test -f "$PREFIX/bin/llama-export-lora"
+          - test -f "$PREFIX/bin/llama-finetune"
+          - test -f "$PREFIX/bin/llama-gen-docs"
+          - test -f "$PREFIX/bin/llama-gguf"
+          - test -f "$PREFIX/bin/llama-gguf-hash"
+          - test -f "$PREFIX/bin/llama-gguf-split"
+          - test -f "$PREFIX/bin/llama-gritlm"
+          - test -f "$PREFIX/bin/llama-imatrix"
+          - test -f "$PREFIX/bin/llama-lookahead"
+          - test -f "$PREFIX/bin/llama-lookup"
+          - test -f "$PREFIX/bin/llama-lookup-create"
+          - test -f "$PREFIX/bin/llama-lookup-merge"
+          - test -f "$PREFIX/bin/llama-lookup-stats"
+          - test -f "$PREFIX/bin/llama-mtmd-cli"
+          - test -f "$PREFIX/bin/llama-parallel"
+          - test -f "$PREFIX/bin/llama-passkey"
+          - test -f "$PREFIX/bin/llama-perplexity"
+          - test -f "$PREFIX/bin/llama-quantize"
+          - test -f "$PREFIX/bin/llama-retrieval"
+          - test -f "$PREFIX/bin/llama-run"
+          - test -f "$PREFIX/bin/llama-save-load-state"
+          - test -f "$PREFIX/bin/llama-server"
+          - test -f "$PREFIX/bin/llama-simple"
+          - test -f "$PREFIX/bin/llama-simple-chat"
+          - test -f "$PREFIX/bin/llama-speculative"
+          - test -f "$PREFIX/bin/llama-speculative-simple"
+          - test -f "$PREFIX/bin/llama-tokenize"
+          - test -f "$PREFIX/bin/llama-tts"
+
+          # Check header files
+          - test -f "$PREFIX/include/ggml-alloc.h"
+          - test -f "$PREFIX/include/ggml-backend.h"
+          - test -f "$PREFIX/include/ggml-blas.h"
+          - test -f "$PREFIX/include/ggml-cann.h"
+          - test -f "$PREFIX/include/ggml-cpp.h"
+          - test -f "$PREFIX/include/ggml-cpu.h"
+          - test -f "$PREFIX/include/ggml-cuda.h"
+          - test -f "$PREFIX/include/ggml-kompute.h"
+          - test -f "$PREFIX/include/ggml-metal.h"
+          - test -f "$PREFIX/include/ggml-opt.h"
+          - test -f "$PREFIX/include/ggml-rpc.h"
+          - test -f "$PREFIX/include/ggml-sycl.h"
+          - test -f "$PREFIX/include/ggml-vulkan.h"
+          - test -f "$PREFIX/include/ggml.h"
+          - test -f "$PREFIX/include/gguf.h"
+          - test -f "$PREFIX/include/llama-cpp.h"
+          - test -f "$PREFIX/include/llama.h"
+          - test -f "$PREFIX/include/mtmd-helper.h"
+          - test -f "$PREFIX/include/mtmd.h"
+
+          # Check CMake configuration files
+          - test -f "$PREFIX/lib/cmake/ggml/ggml-config.cmake"
+          - test -f "$PREFIX/lib/cmake/ggml/ggml-version.cmake"
+          - test -f "$PREFIX/lib/cmake/llama/llama-config.cmake"
+          - test -f "$PREFIX/lib/cmake/llama/llama-version.cmake"
+
+          # Check libraries
+          - test -f "$PREFIX/lib/libggml-base.so"
+          - test -f "$PREFIX/lib/libggml-cpu.so"
+          - test -f "$PREFIX/lib/libggml.so"
+          - test -f "$PREFIX/lib/libllama.so"
+          - test -f "$PREFIX/lib/libmtmd.so"
+
+          # Check pkg-config file
+          - test -f "$PREFIX/lib/pkgconfig/llama.pc"
+
   - if: (build_platform == target_platform) and (cuda_compiler_version == "None")
     then:
       - script:
-          - main --help
-          - server --help
+          - llama-cli --help
+          - llama-server --help
         requirements:
           run:
             - if: cuda_compiler_version != "None"
