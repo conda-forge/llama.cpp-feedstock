@@ -155,6 +155,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - username
     - jonashaag
     - frankier
     - sodre
