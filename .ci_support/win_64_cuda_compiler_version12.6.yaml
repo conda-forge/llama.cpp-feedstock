@@ -1,0 +1,20 @@
+blas_impl:
+- mkl
+c_compiler:
+- vs2022
+c_stdlib:
+- vs
+channel_sources:
+- conda-forge
+channel_targets:
+- conda-forge main
+cuda_compiler:
+- cuda-nvcc
+cuda_compiler_version:
+- '12.6'
+cxx_compiler:
+- vs2022
+mkl:
+- '2024'
+target_platform:
+- win-64
