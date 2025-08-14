@@ -152,9 +152,6 @@ requirements:
         - if: match(cuda_compiler_version, "12.*")
           then:
             - cuda-nvcc-tools
-    - if: linux and (cuda_compiler_vedrsion == "None") and (blas_impl == "mkl")
-      then:
-        - llvm-openmp
   run_constraints:
     # whisper.cpp also vendors ggml
     - whisper.cpp <0.0.0a0
