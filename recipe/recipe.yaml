@@ -255,8 +255,13 @@ tests:
         - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
         - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
 
-        # Packaged everywhere but on linux_aarch64
-        - if: (not (linux and aarch64))
+        # CUDA libraries
+        - if: cuda_compiler_version != "None"
+          then:
+            - check_file "$PREFIX/lib/libggml-cuda${SHLIB_EXT}" "libggml-cuda${SHLIB_EXT}"
+
+        # Packaged everywhere but for CUDA builds and on linux_aarch64
+        - if: (not (linux and aarch64)) and (cuda_compiler_version == "None")
           then:
             - check_file "$PREFIX/lib/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
 
