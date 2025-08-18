@@ -250,11 +250,15 @@ tests:
         # Check libraries
         - echo "Checking library files..."
         - check_file "$PREFIX/lib/libggml-base${SHLIB_EXT}" "libggml-base${SHLIB_EXT}"
-        - check_file "$PREFIX/lib/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
         - check_file "$PREFIX/lib/libggml-cpu${SHLIB_EXT}" "libggml-cpu${SHLIB_EXT}"
         - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
         - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
         - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
+
+        # Packaged everywhere but on linux_aarch64
+        - if: (not (linux and aarch64))
+          then:
+            - check_file "$PREFIX/lib/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
 
         # Check pkg-config file
         - echo "Checking pkg-config file..."
