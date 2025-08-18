@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
   version: "0.0.2646"
-  build: 3
+  build: 2
 
 package:
   name: ${{ name|lower }}

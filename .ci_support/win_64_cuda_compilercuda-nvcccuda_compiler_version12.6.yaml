@@ -1,7 +1,7 @@
 blas_impl:
 - mkl
 c_compiler:
-- vs2022
+- vs2019
 c_stdlib:
 - vs
 channel_sources:
@@ -11,10 +11,13 @@ channel_targets:
 cuda_compiler:
 - cuda-nvcc
 cuda_compiler_version:
-- '12.9'
+- '12.6'
 cxx_compiler:
-- vs2022
+- vs2019
 mkl:
 - '2024'
 target_platform:
 - win-64
+zip_keys:
+- - cuda_compiler
+  - cuda_compiler_version
