@@ -1,5 +1,5 @@
 blas_impl:
-- mkl
+- openblas
 c_compiler:
 - gcc
 c_compiler_version:
@@ -17,7 +17,7 @@ channel_targets:
 cuda_compiler:
 - cuda-nvcc
 cuda_compiler_version:
-- '12.6'
+- '12.9'
 cxx_compiler:
 - gxx
 cxx_compiler_version:
@@ -27,10 +27,8 @@ docker_image:
 mkl:
 - '2024'
 target_platform:
-- linux-64
+- linux-aarch64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-  - cuda_compiler
   - cuda_compiler_version
-  - docker_image
