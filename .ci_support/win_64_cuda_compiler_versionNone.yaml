@@ -14,6 +14,8 @@ cuda_compiler_version:
 - None
 cxx_compiler:
 - vs2022
+libcurl:
+- '8'
 mkl:
 - '2024'
 target_platform:
