@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
-  version: "5649"
-  build: 1
+  version: "6240"
+  build: 0
 
 package:
   name: ${{ name|lower }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
-  sha256: 4e76e8a320d207bd5bfd75dae77d6e3b81dec950832a07a7e9441e30bcd95d96
+  sha256: ea85b553dbdbe270a7405ae1debf28f17bbc025e53427f39fb53f939e4eb8379
 
 build:
   number: ${{ build }}
@@ -165,98 +165,98 @@ tests:
     then:
       - script:
         # Define function to check file existence with verbose output
-        - |
-          check_file() {
-            local file="$1"
-            local description="$2"
-            if test -f "$file"; then
-              echo "✓ Found: $description"
-            else
-              echo "✗ Missing: $description"
-              return 1
-            fi
-          }
+          - |
+            check_file() {
+              local file="$1"
+              local description="$2"
+              if test -f "$file"; then
+                echo "✓ Found: $description"
+              else
+                echo "✗ Missing: $description"
+                return 1
+              fi
+            }
 
         # Check binaries
-        - echo "Checking binary files..."
-        - check_file "$PREFIX/bin/convert_hf_to_gguf.py" "convert_hf_to_gguf.py"
-        - check_file "$PREFIX/bin/llama-batched" "llama-batched"
-        - check_file "$PREFIX/bin/llama-batched-bench" "llama-batched-bench"
-        - check_file "$PREFIX/bin/llama-bench" "llama-bench"
-        - check_file "$PREFIX/bin/llama-cli" "llama-cli"
-        - check_file "$PREFIX/bin/llama-convert-llama2c-to-ggml" "llama-convert-llama2c-to-ggml"
-        - check_file "$PREFIX/bin/llama-cvector-generator" "llama-cvector-generator"
-        - check_file "$PREFIX/bin/llama-embedding" "llama-embedding"
-        - check_file "$PREFIX/bin/llama-eval-callback" "llama-eval-callback"
-        - check_file "$PREFIX/bin/llama-export-lora" "llama-export-lora"
-        - check_file "$PREFIX/bin/llama-finetune" "llama-finetune"
-        - check_file "$PREFIX/bin/llama-gen-docs" "llama-gen-docs"
-        - check_file "$PREFIX/bin/llama-gguf" "llama-gguf"
-        - check_file "$PREFIX/bin/llama-gguf-hash" "llama-gguf-hash"
-        - check_file "$PREFIX/bin/llama-gguf-split" "llama-gguf-split"
-        - check_file "$PREFIX/bin/llama-gritlm" "llama-gritlm"
-        - check_file "$PREFIX/bin/llama-imatrix" "llama-imatrix"
-        - check_file "$PREFIX/bin/llama-lookahead" "llama-lookahead"
-        - check_file "$PREFIX/bin/llama-lookup" "llama-lookup"
-        - check_file "$PREFIX/bin/llama-lookup-create" "llama-lookup-create"
-        - check_file "$PREFIX/bin/llama-lookup-merge" "llama-lookup-merge"
-        - check_file "$PREFIX/bin/llama-lookup-stats" "llama-lookup-stats"
-        - check_file "$PREFIX/bin/llama-mtmd-cli" "llama-mtmd-cli"
-        - check_file "$PREFIX/bin/llama-parallel" "llama-parallel"
-        - check_file "$PREFIX/bin/llama-passkey" "llama-passkey"
-        - check_file "$PREFIX/bin/llama-perplexity" "llama-perplexity"
-        - check_file "$PREFIX/bin/llama-quantize" "llama-quantize"
-        - check_file "$PREFIX/bin/llama-retrieval" "llama-retrieval"
-        - check_file "$PREFIX/bin/llama-run" "llama-run"
-        - check_file "$PREFIX/bin/llama-save-load-state" "llama-save-load-state"
-        - check_file "$PREFIX/bin/llama-server" "llama-server"
-        - check_file "$PREFIX/bin/llama-simple" "llama-simple"
-        - check_file "$PREFIX/bin/llama-simple-chat" "llama-simple-chat"
-        - check_file "$PREFIX/bin/llama-speculative" "llama-speculative"
-        - check_file "$PREFIX/bin/llama-speculative-simple" "llama-speculative-simple"
-        - check_file "$PREFIX/bin/llama-tokenize" "llama-tokenize"
-        - check_file "$PREFIX/bin/llama-tts" "llama-tts"
+          - echo "Checking binary files..."
+          - check_file "$PREFIX/bin/convert_hf_to_gguf.py" "convert_hf_to_gguf.py"
+          - check_file "$PREFIX/bin/llama-batched" "llama-batched"
+          - check_file "$PREFIX/bin/llama-batched-bench" "llama-batched-bench"
+          - check_file "$PREFIX/bin/llama-bench" "llama-bench"
+          - check_file "$PREFIX/bin/llama-cli" "llama-cli"
+          - check_file "$PREFIX/bin/llama-convert-llama2c-to-ggml" "llama-convert-llama2c-to-ggml"
+          - check_file "$PREFIX/bin/llama-cvector-generator" "llama-cvector-generator"
+          - check_file "$PREFIX/bin/llama-embedding" "llama-embedding"
+          - check_file "$PREFIX/bin/llama-eval-callback" "llama-eval-callback"
+          - check_file "$PREFIX/bin/llama-export-lora" "llama-export-lora"
+          - check_file "$PREFIX/bin/llama-finetune" "llama-finetune"
+          - check_file "$PREFIX/bin/llama-gen-docs" "llama-gen-docs"
+          - check_file "$PREFIX/bin/llama-gguf" "llama-gguf"
+          - check_file "$PREFIX/bin/llama-gguf-hash" "llama-gguf-hash"
+          - check_file "$PREFIX/bin/llama-gguf-split" "llama-gguf-split"
+          - check_file "$PREFIX/bin/llama-gritlm" "llama-gritlm"
+          - check_file "$PREFIX/bin/llama-imatrix" "llama-imatrix"
+          - check_file "$PREFIX/bin/llama-lookahead" "llama-lookahead"
+          - check_file "$PREFIX/bin/llama-lookup" "llama-lookup"
+          - check_file "$PREFIX/bin/llama-lookup-create" "llama-lookup-create"
+          - check_file "$PREFIX/bin/llama-lookup-merge" "llama-lookup-merge"
+          - check_file "$PREFIX/bin/llama-lookup-stats" "llama-lookup-stats"
+          - check_file "$PREFIX/bin/llama-mtmd-cli" "llama-mtmd-cli"
+          - check_file "$PREFIX/bin/llama-parallel" "llama-parallel"
+          - check_file "$PREFIX/bin/llama-passkey" "llama-passkey"
+          - check_file "$PREFIX/bin/llama-perplexity" "llama-perplexity"
+          - check_file "$PREFIX/bin/llama-quantize" "llama-quantize"
+          - check_file "$PREFIX/bin/llama-retrieval" "llama-retrieval"
+          - check_file "$PREFIX/bin/llama-run" "llama-run"
+          - check_file "$PREFIX/bin/llama-save-load-state" "llama-save-load-state"
+          - check_file "$PREFIX/bin/llama-server" "llama-server"
+          - check_file "$PREFIX/bin/llama-simple" "llama-simple"
+          - check_file "$PREFIX/bin/llama-simple-chat" "llama-simple-chat"
+          - check_file "$PREFIX/bin/llama-speculative" "llama-speculative"
+          - check_file "$PREFIX/bin/llama-speculative-simple" "llama-speculative-simple"
+          - check_file "$PREFIX/bin/llama-tokenize" "llama-tokenize"
+          - check_file "$PREFIX/bin/llama-tts" "llama-tts"
 
         # Check header files
-        - echo "Checking header files..."
-        - check_file "$PREFIX/include/ggml-alloc.h" "ggml-alloc.h"
-        - check_file "$PREFIX/include/ggml-backend.h" "ggml-backend.h"
-        - check_file "$PREFIX/include/ggml-blas.h" "ggml-blas.h"
-        - check_file "$PREFIX/include/ggml-cann.h" "ggml-cann.h"
-        - check_file "$PREFIX/include/ggml-cpp.h" "ggml-cpp.h"
-        - check_file "$PREFIX/include/ggml-cpu.h" "ggml-cpu.h"
-        - check_file "$PREFIX/include/ggml-cuda.h" "ggml-cuda.h"
-        - check_file "$PREFIX/include/ggml-kompute.h" "ggml-kompute.h"
-        - check_file "$PREFIX/include/ggml-metal.h" "ggml-metal.h"
-        - check_file "$PREFIX/include/ggml-opt.h" "ggml-opt.h"
-        - check_file "$PREFIX/include/ggml-rpc.h" "ggml-rpc.h"
-        - check_file "$PREFIX/include/ggml-sycl.h" "ggml-sycl.h"
-        - check_file "$PREFIX/include/ggml-vulkan.h" "ggml-vulkan.h"
-        - check_file "$PREFIX/include/ggml.h" "ggml.h"
-        - check_file "$PREFIX/include/gguf.h" "gguf.h"
-        - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
-        - check_file "$PREFIX/include/llama.h" "llama.h"
-        - check_file "$PREFIX/include/mtmd-helper.h" "mtmd-helper.h"
-        - check_file "$PREFIX/include/mtmd.h" "mtmd.h"
+          - echo "Checking header files..."
+          - check_file "$PREFIX/include/ggml-alloc.h" "ggml-alloc.h"
+          - check_file "$PREFIX/include/ggml-backend.h" "ggml-backend.h"
+          - check_file "$PREFIX/include/ggml-blas.h" "ggml-blas.h"
+          - check_file "$PREFIX/include/ggml-cann.h" "ggml-cann.h"
+          - check_file "$PREFIX/include/ggml-cpp.h" "ggml-cpp.h"
+          - check_file "$PREFIX/include/ggml-cpu.h" "ggml-cpu.h"
+          - check_file "$PREFIX/include/ggml-cuda.h" "ggml-cuda.h"
+          - check_file "$PREFIX/include/ggml-kompute.h" "ggml-kompute.h"
+          - check_file "$PREFIX/include/ggml-metal.h" "ggml-metal.h"
+          - check_file "$PREFIX/include/ggml-opt.h" "ggml-opt.h"
+          - check_file "$PREFIX/include/ggml-rpc.h" "ggml-rpc.h"
+          - check_file "$PREFIX/include/ggml-sycl.h" "ggml-sycl.h"
+          - check_file "$PREFIX/include/ggml-vulkan.h" "ggml-vulkan.h"
+          - check_file "$PREFIX/include/ggml.h" "ggml.h"
+          - check_file "$PREFIX/include/gguf.h" "gguf.h"
+          - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
+          - check_file "$PREFIX/include/llama.h" "llama.h"
+          - check_file "$PREFIX/include/mtmd-helper.h" "mtmd-helper.h"
+          - check_file "$PREFIX/include/mtmd.h" "mtmd.h"
 
         # Check CMake configuration files
-        - echo "Checking CMake configuration files..."
-        - check_file "$PREFIX/lib/cmake/ggml/ggml-config.cmake" "ggml-config.cmake"
-        - check_file "$PREFIX/lib/cmake/ggml/ggml-version.cmake" "ggml-version.cmake"
-        - check_file "$PREFIX/lib/cmake/llama/llama-config.cmake" "llama-config.cmake"
-        - check_file "$PREFIX/lib/cmake/llama/llama-version.cmake" "llama-version.cmake"
+          - echo "Checking CMake configuration files..."
+          - check_file "$PREFIX/lib/cmake/ggml/ggml-config.cmake" "ggml-config.cmake"
+          - check_file "$PREFIX/lib/cmake/ggml/ggml-version.cmake" "ggml-version.cmake"
+          - check_file "$PREFIX/lib/cmake/llama/llama-config.cmake" "llama-config.cmake"
+          - check_file "$PREFIX/lib/cmake/llama/llama-version.cmake" "llama-version.cmake"
 
         # Check libraries
-        - echo "Checking library files..."
-        - check_file "$PREFIX/lib/libggml-base${SHLIB_EXT}" "libggml-base${SHLIB_EXT}"
-        - check_file "$PREFIX/lib/libggml-cpu${SHLIB_EXT}" "libggml-cpu${SHLIB_EXT}"
-        - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
-        - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
-        - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
+          - echo "Checking library files..."
+          - check_file "$PREFIX/lib/libggml-base${SHLIB_EXT}" "libggml-base${SHLIB_EXT}"
+          - check_file "$PREFIX/lib/libggml-cpu${SHLIB_EXT}" "libggml-cpu${SHLIB_EXT}"
+          - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
+          - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
+          - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
 
         # Check pkg-config file
-        - echo "Checking pkg-config file..."
-        - check_file "$PREFIX/lib/pkgconfig/llama.pc" "llama.pc"
+          - echo "Checking pkg-config file..."
+          - check_file "$PREFIX/lib/pkgconfig/llama.pc" "llama.pc"
 
   - if: (build_platform == target_platform) and (cuda_compiler_version == "None")
     then:
