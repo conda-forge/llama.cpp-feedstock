@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
-  version: "5649"
-  build: 1
+  version: "6191"
+  build: 0
 
 package:
   name: ${{ name|lower }}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
-  sha256: 4e76e8a320d207bd5bfd75dae77d6e3b81dec950832a07a7e9441e30bcd95d96
+  sha256: 2383b5ed5096bdc560b64484d6924599bb95367c145544f041caaa3ed7bdb990
 
 build:
   number: ${{ build }}
@@ -187,6 +187,7 @@ tests:
         - check_file "$PREFIX/bin/llama-convert-llama2c-to-ggml" "llama-convert-llama2c-to-ggml"
         - check_file "$PREFIX/bin/llama-cvector-generator" "llama-cvector-generator"
         - check_file "$PREFIX/bin/llama-embedding" "llama-embedding"
+        - check_file "$PREFIX/bin/llama-diffusion-cli" "llama-diffusion-cli"
         - check_file "$PREFIX/bin/llama-eval-callback" "llama-eval-callback"
         - check_file "$PREFIX/bin/llama-export-lora" "llama-export-lora"
         - check_file "$PREFIX/bin/llama-finetune" "llama-finetune"
@@ -226,12 +227,12 @@ tests:
         - check_file "$PREFIX/include/ggml-cpp.h" "ggml-cpp.h"
         - check_file "$PREFIX/include/ggml-cpu.h" "ggml-cpu.h"
         - check_file "$PREFIX/include/ggml-cuda.h" "ggml-cuda.h"
-        - check_file "$PREFIX/include/ggml-kompute.h" "ggml-kompute.h"
         - check_file "$PREFIX/include/ggml-metal.h" "ggml-metal.h"
         - check_file "$PREFIX/include/ggml-opt.h" "ggml-opt.h"
         - check_file "$PREFIX/include/ggml-rpc.h" "ggml-rpc.h"
         - check_file "$PREFIX/include/ggml-sycl.h" "ggml-sycl.h"
         - check_file "$PREFIX/include/ggml-vulkan.h" "ggml-vulkan.h"
+        - check_file "$PREFIX/include/ggml-webgpu.h" "ggml-webgpu.h"
         - check_file "$PREFIX/include/ggml.h" "ggml.h"
         - check_file "$PREFIX/include/gguf.h" "gguf.h"
         - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
@@ -253,6 +254,16 @@ tests:
         - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
         - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
         - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
+
+        # CUDA libraries
+        - if: cuda_compiler_version != "None"
+          then:
+            - check_file "$PREFIX/lib/libggml-cuda${SHLIB_EXT}" "libggml-cuda${SHLIB_EXT}"
+
+        # Packaged everywhere but for CUDA builds and on linux_aarch64
+        - if: (not (linux and aarch64)) and (cuda_compiler_version == "None")
+          then:
+            - check_file "$PREFIX/lib/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
 
         # Check pkg-config file
         - echo "Checking pkg-config file..."
