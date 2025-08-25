@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
   version: "6191"
-  build: 0
+  build: 1
 
 package:
   name: ${{ name|lower }}
@@ -34,7 +34,7 @@ build:
         {%- endmacro %}
 
         ${{ cmake_args("BUILD_SHARED_LIBS=ON") }}
-        ${{ llama_args("CURL=OFF") }}
+        ${{ llama_args("CURL=ON") }}
 
         {%- if osx and arm64 %}
         ${{ ggml_args("NATIVE=OFF") }}
@@ -87,7 +87,7 @@ build:
         {%- endmacro %}
 
         ${{ cmake_args("BUILD_SHARED_LIBS=ON") }}
-        ${{ llama_args("CURL=OFF") }}
+        ${{ llama_args("CURL=ON") }}
 
         ${{ ggml_args("NATIVE=OFF") }}
 
@@ -134,6 +134,7 @@ requirements:
     - ninja
     - pkgconfig
   host:
+    - libcurl
     - if: cuda_compiler_version != "None"
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
@@ -274,6 +275,11 @@ tests:
       - script:
           - llama-cli --help
           - llama-server --help
+          - if: not win
+            then:
+              # Test downloading a smol model (using libcurl) and running it.
+              # TODO: Understand why this fails on Windows.
+              - llama-run smollm:135m
         requirements:
           run:
             - if: cuda_compiler_version != "None"
