@@ -13,6 +13,7 @@ github:
   tooling_branch_name: main
 test: native_and_emulated
 bot:
+  automerge: true
   version_updates:
     # `llama.cpp` is being released for each commit, which is way too often.
     # We want to limit `llama.cpp` releases to one release every week.
