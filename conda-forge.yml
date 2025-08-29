@@ -22,4 +22,5 @@ bot:
     # there is:
     #   - an average of 50.75 commits per week
     #   - a   median of 50    commits per week.
+    #
     random_fraction_to_keep: 0.02
