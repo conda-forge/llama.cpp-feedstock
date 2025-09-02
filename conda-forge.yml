@@ -12,3 +12,15 @@ github:
   branch_name: main
   tooling_branch_name: main
 test: native_and_emulated
+bot:
+  automerge: true
+  version_updates:
+    # `llama.cpp` is being released for each commit, which is way too often.
+    # We want to limit `llama.cpp` releases to one release every week.
+    #
+    # Based on: https://github.com/ggml-org/llama.cpp/graphs/commit-activity,
+    # there is:
+    #   - an average of 50.75 commits per week
+    #   - a   median of 50    commits per week.
+    #
+    random_fraction_to_keep: 0.02
