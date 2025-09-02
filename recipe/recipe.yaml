@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "6249"
+  version: "6294"
   build: 0
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
-  sha256: f8f83c552f3cc7e5be9ebb3433548cf5dce486cd3cbc6769ede7c1f3f47df8b5
+  sha256: 4ca0a58c4f3776e118917cdf11949bdd6768c23cf40514f7d58533bdf168cd1e
 
 build:
   number: ${{ build }}
