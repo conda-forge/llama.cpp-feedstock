@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
   version: "6441"
-  build: 0
+  build: 1
 
 package:
   name: ${{ name|lower }}
@@ -38,6 +38,12 @@ build:
         ${{ cmake_args("BUILD_SHARED_LIBS=ON") }}
         ${{ llama_args("CURL=ON") }}
 
+        # Vulkan is only useful on Linux, as on macOS
+        # metal is used
+        {%- if linux %}
+        ${{ ggml_args("VULKAN=ON") }}
+        {%- endif %}
+
         {%- if osx and arm64 %}
         ${{ ggml_args("NATIVE=OFF") }}
         ${{ ggml_args("AVX=OFF") }}
@@ -67,6 +73,11 @@ build:
 
         {%- endif %}
 
+        {%- if build_platform != target_platform %}
+        ${{ cmake_args("HOST_C_COMPILER=$CC_FOR_BUILD") }}
+        ${{ cmake_args("HOST_CXX_COMPILER=$CXX_FOR_BUILD") }}
+        {%- endif %}
+
         echo $LLAMA_ARGS
         cmake -S . -B build -G Ninja ${CMAKE_ARGS} ${LLAMA_ARGS}
         cmake --build build
@@ -92,6 +103,8 @@ build:
         ${{ llama_args("CURL=ON") }}
 
         ${{ ggml_args("NATIVE=OFF") }}
+
+        ${{ ggml_args("VULKAN=ON") }}
 
         {%- if cuda_compiler_version != "None" %}
         ${{ ggml_args("CUDA=ON") }}
@@ -137,6 +150,9 @@ requirements:
     - pkgconfig
   host:
     - libcurl
+    - libvulkan-headers
+    - libvulkan-loader
+    - shaderc
     - if: cuda_compiler_version != "None"
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
