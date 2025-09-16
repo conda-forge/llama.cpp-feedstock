@@ -1,0 +1,26 @@
+From ac0ca842abedfadb8f969d5f2cda04815cf5948d Mon Sep 17 00:00:00 2001
+From: Julien Jerphanion <git@jjerphan.xyz>
+Date: Tue, 16 Sep 2025 11:28:30 +0200
+Subject: [PATCH] Change `gpuAddress` for `contents`
+
+Signed-off-by: Julien Jerphanion <git@jjerphan.xyz>
+---
+ ggml/src/ggml-metal/ggml-metal.m | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ggml/src/ggml-metal/ggml-metal.m b/ggml/src/ggml-metal/ggml-metal.m
+index 07b96dbd..51b0c646 100644
+--- a/ggml/src/ggml-metal/ggml-metal.m
++++ b/ggml/src/ggml-metal/ggml-metal.m
+@@ -6215,7 +6215,7 @@ static ggml_backend_buffer_t ggml_backend_metal_buffer_type_alloc_buffer(ggml_ba
+             } else {
+                 ctx->buffers[0].metal = [device newBufferWithLength:size_aligned options:MTLResourceStorageModePrivate];
+ 
+-                ctx->all_data = (void *) (ctx->buffers[0].metal.gpuAddress);
++                ctx->all_data = (void *) (ctx->buffers[0].metal.contents);
+             }
+         }
+ 
+-- 
+2.51.0
+
