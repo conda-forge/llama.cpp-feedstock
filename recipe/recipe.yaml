@@ -297,6 +297,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - traversaro
     - jjerphan
     - jonashaag
     - frankier
