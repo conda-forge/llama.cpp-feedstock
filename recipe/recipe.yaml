@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "6441"
+  version: "6729"
   build: 0
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
-  sha256: e5779ac94f3c8e32ffcc610cf4227af9637e6e81566f0ac1c0f8f7d39986cc24
+  sha256: bfe625422c8fa74cf12d1d6aff8bdbbe61c86647de1615c2e7b6f0cde4804e18
   patches:
     - 0001-Change-gpuAddress-for-contents.patch
 
