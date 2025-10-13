@@ -198,7 +198,6 @@ tests:
           - check_file "$PREFIX/bin/llama-gguf" "llama-gguf"
           - check_file "$PREFIX/bin/llama-gguf-hash" "llama-gguf-hash"
           - check_file "$PREFIX/bin/llama-gguf-split" "llama-gguf-split"
-          - check_file "$PREFIX/bin/llama-gritlm" "llama-gritlm"
           - check_file "$PREFIX/bin/llama-imatrix" "llama-imatrix"
           - check_file "$PREFIX/bin/llama-lookahead" "llama-lookahead"
           - check_file "$PREFIX/bin/llama-lookup" "llama-lookup"
