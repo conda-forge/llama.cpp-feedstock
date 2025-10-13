@@ -1,23 +1,23 @@
-From ac0ca842abedfadb8f969d5f2cda04815cf5948d Mon Sep 17 00:00:00 2001
+From 228800186cab957319d187ecf6e92052ea2a3d22 Mon Sep 17 00:00:00 2001
 From: Julien Jerphanion <git@jjerphan.xyz>
 Date: Tue, 16 Sep 2025 11:28:30 +0200
 Subject: [PATCH] Change `gpuAddress` for `contents`
 
 Signed-off-by: Julien Jerphanion <git@jjerphan.xyz>
 ---
- ggml/src/ggml-metal/ggml-metal.m | 2 +-
+ ggml/src/ggml-metal/ggml-metal-device.m | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/ggml/src/ggml-metal/ggml-metal.m b/ggml/src/ggml-metal/ggml-metal.m
-index 07b96dbd..51b0c646 100644
---- a/ggml/src/ggml-metal/ggml-metal.m
-+++ b/ggml/src/ggml-metal/ggml-metal.m
-@@ -6215,7 +6215,7 @@ static ggml_backend_buffer_t ggml_backend_metal_buffer_type_alloc_buffer(ggml_ba
+diff --git a/ggml/src/ggml-metal/ggml-metal-device.m b/ggml/src/ggml-metal/ggml-metal-device.m
+index e38e70768..e0faebb66 100644
+--- a/ggml/src/ggml-metal/ggml-metal-device.m
++++ b/ggml/src/ggml-metal/ggml-metal-device.m
+@@ -989,7 +989,7 @@ ggml_metal_buffer_t ggml_metal_buffer_init(ggml_metal_device_t dev, size_t size,
              } else {
-                 ctx->buffers[0].metal = [device newBufferWithLength:size_aligned options:MTLResourceStorageModePrivate];
+                 res->buffers[0].metal = [res->device newBufferWithLength:size_aligned options:MTLResourceStorageModePrivate];
  
--                ctx->all_data = (void *) (ctx->buffers[0].metal.gpuAddress);
-+                ctx->all_data = (void *) (ctx->buffers[0].metal.contents);
+-                res->all_data = (void *) (res->buffers[0].metal.gpuAddress);
++                res->all_data = (void *) (res->buffers[0].metal.contents);
              }
          }
  
