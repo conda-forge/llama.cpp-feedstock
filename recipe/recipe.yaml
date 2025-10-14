@@ -11,7 +11,8 @@ source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
   sha256: bfe625422c8fa74cf12d1d6aff8bdbbe61c86647de1615c2e7b6f0cde4804e18
   patches:
-    - 0001-Change-gpuAddress-for-contents.patch
+    # See: https://github.com/ggml-org/llama.cpp/pull/16576/
+    - 16576.patch
 
 build:
   number: ${{ build }}
