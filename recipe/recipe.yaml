@@ -10,9 +10,6 @@ package:
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
   sha256: ee5f9fb33e0e3af134586452be80ca59eb275ff70ca4c45a433ce0a6b791b484
-  patches:
-    # See: https://github.com/ggml-org/llama.cpp/pull/16576/
-    - 16576.patch
 
 build:
   number: ${{ build }}
