@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "6729"
+  version: "6785"
   build: 0
 
 package:
@@ -9,10 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
-  sha256: bfe625422c8fa74cf12d1d6aff8bdbbe61c86647de1615c2e7b6f0cde4804e18
-  patches:
-    # See: https://github.com/ggml-org/llama.cpp/pull/16576/
-    - 16576.patch
+  sha256: ee5f9fb33e0e3af134586452be80ca59eb275ff70ca4c45a433ce0a6b791b484
 
 build:
   number: ${{ build }}
