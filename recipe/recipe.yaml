@@ -1,19 +1,25 @@
 context:
   name: llama.cpp
   version: "6800"
-  build: 0
+  build: 1
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
+  url: https://github.com/ggml-org/${{ name }}/archive/b${{ (version ~ "") | split(".") | list | last }}.tar.gz
   sha256: eaf2a570d19aa19334856589153ac6fe0405a673451c8e1dc88b0f5add5ffc4c
 
 build:
-  number: ${{ build }}
+  # We use the base build for non-cuda builds, +200 for regular cuda, +150 for aarch64+tegra builds linux
+  # This is because we do not want linux-aarch64 users to get tegra variants unless they explicitly install arm-variant=*=tegra
+  number: ${{ build if cuda_compiler_version == "None" else (build + (150 if (linux and aarch64 and arm_variant_type == "tegra") else 200)) }}
   string: '{%- if cuda_compiler_version != "None" -%}cuda${{ cuda_compiler_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif (osx and x86_64) or cuda_compiler_version == "None" -%}cpu_${{ blas_impl }}_h${{ hash }}_${{ build }}{%- elif osx and arm64 -%}mps_h${{ hash }}_${{ build }}{%- endif -%}'
+  # We do not want to build both (cuda_compiler_version == "None" and arm_variant_type == "sbsa") and  (cuda_compiler_version == "None" and arm_variant_type == "tegra"),
+  # as arm_variant_type is ignored for non-CUDA builds, we skip the (cuda_compiler_version == "None" and arm_variant_type == "tegra") case
+  skip:
+    - cuda_compiler_version == "None" and aarch64 and arm_variant_type == "tegra"
 
   script:
     - if: unix
@@ -52,8 +58,18 @@ build:
         {%- endif %}
 
         {%- if cuda_compiler_version != "None" %}
+
         ${{ ggml_args("CUDA=ON") }}
+        # As of CUDA 12 the architecture that make sense for tegra are limited, so
+        # we used them as set cuda cuda-nvcc with $CUDAARCHS, instead of hardcoding it to all
+        # Technically CUDAARCHS is automatically used by CMake for initializing the CMAKE_CUDA_ARCHITECTURES
+        # variable, but we set it explicitly for clarity
+        {%- if linux and aarch64 and arm_variant_type == "tegra" %}
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=$CUDAARCHS") }}
+        {%- else %}
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
+        {%- endif %}
+
         {%- endif %}
 
         {%- if linux and x86_64 and cuda_compiler_version == "None" %}
@@ -129,6 +145,9 @@ requirements:
     - if: cuda_compiler_version != "None"
       then:
         - ${{ compiler('cuda') }}
+    - if: cuda_compiler_version != "None" and linux and aarch64
+      then:
+        - arm-variant * ${{ arm_variant_type }}
     - cmake
     - git
     - ninja
@@ -143,6 +162,12 @@ requirements:
           then:
             - cuda-cudart-dev ${{ cuda_compiler_version }}.*
             - libcublas-dev ${{ cuda_compiler_version }}.*
+            # This is only used to workaround for https://github.com/NVIDIA/cccl/issues/4967,
+            # can be dropped once CUDA 12 support is dropped
+            - cccl
+    - if: cuda_compiler_version != "None" and linux and aarch64
+      then:
+        - arm-variant * ${{ arm_variant_type }}
 
     - if: (not osx) and (cuda_compiler_version == "None") and (blas_impl == "mkl")
       then:
