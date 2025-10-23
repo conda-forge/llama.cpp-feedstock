@@ -5,3 +5,8 @@ blas_impl:
   - mkl        # [(linux and not aarch64) or win]
   - openblas   # [linux and aarch64]
   - accelerate # [osx]
+
+# Support for Tegra architecture (Jetson Orin)
+arm_variant_type:  # [linux and aarch64]
+  - sbsa           # [linux and aarch64]
+  - tegra          # [linux and aarch64]
