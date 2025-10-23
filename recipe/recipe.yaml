@@ -32,44 +32,44 @@ build:
         {%- endmacro %}
 
         {% macro ggml_args(value) -%}
-        LLAMA_ARGS="${LLAMA_ARGS} -DGGML_$ value }}"
+        LLAMA_ARGS="${LLAMA_ARGS} -DGGML_${{ value }}"
         {%- endmacro %}
 
-        $ cmake_args("BUILD_SHARED_LIBS=ON") }}
-        $ llama_args("CURL=ON") }}
+        ${{ cmake_args("BUILD_SHARED_LIBS=ON") }}
+        ${{ llama_args("CURL=ON") }}
 
         {%- if osx and arm64 %}
-        $ ggml_args("NATIVE=OFF") }}
-        $ ggml_args("AVX=OFF") }}
-        $ ggml_args("AVX2=OFF") }}
-        $ ggml_args("FMA=OFF") }}
-        $ ggml_args("F16C=OFF") }}
-        $ ggml_args("METAL=ON") }}
-        $ ggml_args("ACCELERATE=ON") }}
+        ${{ ggml_args("NATIVE=OFF") }}
+        ${{ ggml_args("AVX=OFF") }}
+        ${{ ggml_args("AVX2=OFF") }}
+        ${{ ggml_args("FMA=OFF") }}
+        ${{ ggml_args("F16C=OFF") }}
+        ${{ ggml_args("METAL=ON") }}
+        ${{ ggml_args("ACCELERATE=ON") }}
         {%- endif %}
 
         {%- if osx and x86_64 %}
-        $ ggml_args("METAL=OFF") }}
-        $ ggml_args("ACCELERATE=ON") }}
+        ${{ ggml_args("METAL=OFF") }}
+        ${{ ggml_args("ACCELERATE=ON") }}
         {%- endif %}
 
         {%- if cuda_compiler_version != "None" %}
 
-        $ ggml_args("CUDA=ON") }}
+        ${{ ggml_args("CUDA=ON") }}
         # As of CUDA 12 the architecture that make sense for tegra are limited, so
         # we used them as set cuda cuda-nvcc with $CUDAARCHS, instead of hardcoding it to all
         # Technically CUDAARCHS is automatically used by CMake for initializing the CMAKE_CUDA_ARCHITECTURES
         # variable, but we set it explicitly for clarity
         {%- if linux and aarch64 and arm_variant_type == "tegra" %}
-        $ cmake_args("CMAKE_CUDA_ARCHITECTURES=$CUDAARCHS") }}
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=$CUDAARCHS") }}
         {%- else %}
-        $ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
         {%- endif %}
 
         {%- endif %}
 
         {%- if linux and x86_64 and cuda_compiler_version == "None" %}
-        $ ggml_args("BLAS=ON") }}
+        ${{ ggml_args("BLAS=ON") }}
 
         {%- if blas_impl == "mkl" %}
         ${{ ggml_args("BLAS_VENDOR=Intel10_64_dyn") }}
