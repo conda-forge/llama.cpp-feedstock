@@ -14,7 +14,7 @@ source:
 build:
   # We use the base build for non-cuda builds, +200 for regular cuda, +100 for aarch64+tegra builds linux and aarch64 and arm_variant_type == "tegra"
   # This is because we do not want linux-aarch64 users to get tegra variants unless they explicitly install arm-variant=*=tegra
-  number: ${{ build if cuda_compiler_version == "None" else (build + (100 if (aarch64 and arm_variant_type == "tegra") else 200)) }}
+  number: ${{ build if cuda_compiler_version == "None" else (build + (100 if (linux and aarch64 and arm_variant_type == "tegra") else 200)) }}
   string: '{%- if cuda_compiler_version != "None" -%}cuda${{ cuda_compiler_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif (osx and x86_64) or cuda_compiler_version == "None" -%}cpu_${{ blas_impl }}_h${{ hash }}_${{ build }}{%- elif osx and arm64 -%}mps_h${{ hash }}_${{ build }}{%- endif -%}'
 
   script:
@@ -60,9 +60,9 @@ build:
         # we used them as set cuda cuda-nvcc with $CUDAARCHS, instead of hardcoding it to all
         # Technically CUDAARCHS is automatically used by CMake for initializing the CMAKE_CUDA_ARCHITECTURES
         # variable, but we set it explicitly for clarity
-        {%- if linux and aarch64 and arm_variant_type == "tegra"}
+        {%- if linux and aarch64 and arm_variant_type == "tegra" %}
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=$CUDAARCHS") }}
-        {%- else }
+        {%- else %}
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
         {%- endif %}
 
@@ -141,7 +141,7 @@ requirements:
     - if: cuda_compiler_version != "None"
       then:
         - ${{ compiler('cuda') }}
-    - if: cuda_compiler_version != "None" and aarch64
+    - if: cuda_compiler_version != "None" and linux and aarch64
       then:
         - arm-variant * {{ arm_variant_type }}
     - cmake
@@ -158,7 +158,7 @@ requirements:
           then:
             - cuda-cudart-dev ${{ cuda_compiler_version }}.*
             - libcublas-dev ${{ cuda_compiler_version }}.*
-    - if: cuda_compiler_version != "None" and aarch64
+    - if: cuda_compiler_version != "None" and linux and aarch64
       then:
         - arm-variant * {{ arm_variant_type }}
 
