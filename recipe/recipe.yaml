@@ -8,7 +8,7 @@ package:
   version: ${{ version }}
 
 source:
-  url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | string | split(".") | list | last }}.tar.gz
+  url: https://github.com/ggml-org/${{ name }}/archive/b${{ (version ~ "") | split(".") | list | last }}.tar.gz
   sha256: eaf2a570d19aa19334856589153ac6fe0405a673451c8e1dc88b0f5add5ffc4c
 
 build:
