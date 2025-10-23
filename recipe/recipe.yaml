@@ -162,6 +162,9 @@ requirements:
           then:
             - cuda-cudart-dev ${{ cuda_compiler_version }}.*
             - libcublas-dev ${{ cuda_compiler_version }}.*
+            # This is only used to workaround for https://github.com/NVIDIA/cccl/issues/4967,
+            # can be dropped once CUDA 12 support is dropped
+            - cccl
     - if: cuda_compiler_version != "None" and linux and aarch64
       then:
         - arm-variant * ${{ arm_variant_type }}
