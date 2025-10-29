@@ -17,6 +17,6 @@ cxx_compiler:
 libcurl:
 - '8'
 mkl:
-- '2024'
+- '2025'
 target_platform:
 - win-64
