@@ -1,23 +1,40 @@
 context:
   name: llama.cpp
   version: "6800"
-  build: 0
+  build: 1
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/ggml-org/${{ name }}/archive/b${{ version | split(".") | list | last }}.tar.gz
+  url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
   sha256: eaf2a570d19aa19334856589153ac6fe0405a673451c8e1dc88b0f5add5ffc4c
 
 build:
-  number: ${{ build }}
+  # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
+  # Similar to https://github.com/conda-forge/jaxlib-feedstock/blob/4471f8d7b0096942f228a9c5a4324bfa75139e22/recipe/recipe.yaml#L22
+  number: ${{ build if cuda_compiler_version == "None" else build + 200 }}
   string: '{%- if cuda_compiler_version != "None" -%}cuda${{ cuda_compiler_version | replace(".", "") }}_h${{ hash }}_${{ build }}{%- elif (osx and x86_64) or cuda_compiler_version == "None" -%}cpu_${{ blas_impl }}_h${{ hash }}_${{ build }}{%- elif osx and arm64 -%}mps_h${{ hash }}_${{ build }}{%- endif -%}'
 
   script:
     - if: unix
       then: |
+        # This is a hotfix for https://github.com/NVIDIA/cccl/issues/4967, backporting
+        # https://github.com/NVIDIA/cccl/pull/4972 on the fly for the installed headers
+        {%- if match(cuda_compiler_version, "12.*") and linux and x86_64 %}
+        CCCL_PREPROCESSOR_H_TO_PATCH="$PREFIX/targets/x86_64-linux/include/cuda/std/__cccl/preprocessor.h"
+        {%- endif %}
+
+        {%- if match(cuda_compiler_version, "12.*") and linux and aarch64 %}
+        CCCL_PREPROCESSOR_H_TO_PATCH="$PREFIX/targets/sbsa-linux/include/cuda/std/__cccl/preprocessor.h"
+        {%- endif %}
+
+        {%- if match(cuda_compiler_version, "12.*") and linux %}
+        ROOT_DIR="$(dirname "${CCCL_PREPROCESSOR_H_TO_PATCH}")/../../../.."
+        patch -p1 -d "${ROOT_DIR}" -i "${RECIPE_DIR}/cuda12_cccl_arch_all.patch"
+        {%- endif %}
+
         echo hello
         LLAMA_ARGS="-DLLAMA_BUILD_TESTS=OFF"
 
