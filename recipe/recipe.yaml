@@ -156,10 +156,8 @@ requirements:
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
         - cuda-version ${{ cuda_compiler_version }}.*
-        - if: match(cuda_compiler_version, "12.*")
-          then:
-            - cuda-cudart-dev ${{ cuda_compiler_version }}.*
-            - libcublas-dev ${{ cuda_compiler_version }}.*
+        - cuda-cudart-dev ${{ cuda_compiler_version }}.*
+        - libcublas-dev ${{ cuda_compiler_version }}.*
 
     - if: (not osx) and (cuda_compiler_version == "None") and (blas_impl == "mkl")
       then:
@@ -170,9 +168,7 @@ requirements:
       then:
         - cuda-version ${{ cuda_compiler_version }}.*
         - __cuda
-        - if: match(cuda_compiler_version, "12.*")
-          then:
-            - cuda-nvcc-tools
+        - cuda-nvcc-tools
   run_constraints:
     # whisper.cpp also vendors ggml
     - whisper.cpp <0.0.0a0
