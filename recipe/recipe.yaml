@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "7423"
+  version: "7700"
   build: 0
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: a242db6cdea125665d9ed6e1372fbfbcae96ad0b3853e1d9f5f70b394887fb47
+  sha256: 3cfb6fbe53c6d35a4ed87870da08df2ed545c77df10e4a1a193d82cfa2b8c359
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
