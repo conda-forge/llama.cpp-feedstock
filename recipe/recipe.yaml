@@ -164,6 +164,9 @@ requirements:
       then:
         - blas-devel * *_${{ blas_impl }}
         - mkl-devel ${{ mkl }}.*
+    - if: osx
+      then:
+        - llvm-openmp
   run:
     - if: cuda_compiler_version != "None"
       then:
