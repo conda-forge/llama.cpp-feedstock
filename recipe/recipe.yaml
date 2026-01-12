@@ -68,9 +68,11 @@ build:
         ${{ ggml_args("ACCELERATE=ON") }}
         {%- endif %}
 
-        {%- if cuda_compiler_version != "None" %}
+        {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
-        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
+        # Exclude sm_120 (compute capability 12.0) as it doesn't support MXFP4 instructions
+        # Explicitly list all architectures except 120
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=80-virtual;86-real;89-real;120a-real;121a-real") }}
         {%- endif %}
 
         {%- if linux and x86_64 and cuda_compiler_version == "None" %}
@@ -108,12 +110,11 @@ build:
 
         ${{ ggml_args("NATIVE=OFF") }}
 
-        {%- if cuda_compiler_version != "None" %}
+        {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
-
-        :: NOTE: is it necessary to set `CMAKE_CUDA_ARCHITECTURES=all`
-        :: on Windows, or is it a nice-to-have?
-        :: ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
+        :: Exclude sm_120 (compute capability 12.0) as it doesn't support MXFP4 instructions
+        :: Explicitly list all architectures except 120
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=80-virtual;86-real;89-real;120a-real;121a-real") }}
 
         {%- else %}
 
