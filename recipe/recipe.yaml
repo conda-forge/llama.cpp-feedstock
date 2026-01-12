@@ -222,7 +222,6 @@ tests:
           - check_file "$PREFIX/bin/llama-perplexity" "llama-perplexity"
           - check_file "$PREFIX/bin/llama-quantize" "llama-quantize"
           - check_file "$PREFIX/bin/llama-retrieval" "llama-retrieval"
-          - check_file "$PREFIX/bin/llama-run" "llama-run"
           - check_file "$PREFIX/bin/llama-save-load-state" "llama-save-load-state"
           - check_file "$PREFIX/bin/llama-server" "llama-server"
           - check_file "$PREFIX/bin/llama-simple" "llama-simple"
@@ -251,8 +250,6 @@ tests:
           - check_file "$PREFIX/include/gguf.h" "gguf.h"
           - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
           - check_file "$PREFIX/include/llama.h" "llama.h"
-          - check_file "$PREFIX/include/mtmd-helper.h" "mtmd-helper.h"
-          - check_file "$PREFIX/include/mtmd.h" "mtmd.h"
 
         # Check CMake configuration files
           - echo "Checking CMake configuration files..."
