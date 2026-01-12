@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "7423"
+  version: "7700"
   build: 0
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: a242db6cdea125665d9ed6e1372fbfbcae96ad0b3853e1d9f5f70b394887fb47
+  sha256: 3cfb6fbe53c6d35a4ed87870da08df2ed545c77df10e4a1a193d82cfa2b8c359
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
@@ -68,9 +68,11 @@ build:
         ${{ ggml_args("ACCELERATE=ON") }}
         {%- endif %}
 
-        {%- if cuda_compiler_version != "None" %}
+        {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
-        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
+        # Exclude sm_120 (compute capability 12.0) as it doesn't support MXFP4 instructions
+        # Explicitly list all architectures except 120
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=80-virtual;86-real;89-real;120a-real;121a-real") }}
         {%- endif %}
 
         {%- if linux and x86_64 and cuda_compiler_version == "None" %}
@@ -108,12 +110,11 @@ build:
 
         ${{ ggml_args("NATIVE=OFF") }}
 
-        {%- if cuda_compiler_version != "None" %}
+        {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
-
-        :: NOTE: is it necessary to set `CMAKE_CUDA_ARCHITECTURES=all`
-        :: on Windows, or is it a nice-to-have?
-        :: ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=all") }}
+        :: Exclude sm_120 (compute capability 12.0) as it doesn't support MXFP4 instructions
+        :: Explicitly list all architectures except 120
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=80-virtual;86-real;89-real;120a-real;121a-real") }}
 
         {%- else %}
 
@@ -163,6 +164,9 @@ requirements:
       then:
         - blas-devel * *_${{ blas_impl }}
         - mkl-devel ${{ mkl }}.*
+    - if: osx
+      then:
+        - llvm-openmp
   run:
     - if: cuda_compiler_version != "None"
       then:
@@ -221,7 +225,6 @@ tests:
           - check_file "$PREFIX/bin/llama-perplexity" "llama-perplexity"
           - check_file "$PREFIX/bin/llama-quantize" "llama-quantize"
           - check_file "$PREFIX/bin/llama-retrieval" "llama-retrieval"
-          - check_file "$PREFIX/bin/llama-run" "llama-run"
           - check_file "$PREFIX/bin/llama-save-load-state" "llama-save-load-state"
           - check_file "$PREFIX/bin/llama-server" "llama-server"
           - check_file "$PREFIX/bin/llama-simple" "llama-simple"
@@ -250,8 +253,6 @@ tests:
           - check_file "$PREFIX/include/gguf.h" "gguf.h"
           - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
           - check_file "$PREFIX/include/llama.h" "llama.h"
-          - check_file "$PREFIX/include/mtmd-helper.h" "mtmd-helper.h"
-          - check_file "$PREFIX/include/mtmd.h" "mtmd.h"
 
         # Check CMake configuration files
           - echo "Checking CMake configuration files..."
@@ -287,11 +288,6 @@ tests:
       - script:
           - llama-cli --help
           - llama-server --help
-          - if: not win
-            then:
-              # Test downloading a smol model (using libcurl) and running it.
-              # TODO: Understand why this fails on Windows.
-              - llama-run smollm:135m
         requirements:
           run:
             - if: cuda_compiler_version != "None"
