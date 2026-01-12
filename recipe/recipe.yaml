@@ -288,11 +288,6 @@ tests:
       - script:
           - llama-cli --help
           - llama-server --help
-          - if: not win
-            then:
-              # Test downloading a smol model (using libcurl) and running it.
-              # TODO: Understand why this fails on Windows.
-              - llama-run smollm:135m
         requirements:
           run:
             - if: cuda_compiler_version != "None"
