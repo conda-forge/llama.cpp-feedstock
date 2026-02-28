@@ -11,12 +11,12 @@ channel_targets:
 cuda_compiler:
 - cuda-nvcc
 cuda_compiler_version:
-- '12.6'
+- '12.9'
 cxx_compiler:
 - vs2022
 libcurl:
 - '8'
 mkl:
-- '2024'
+- '2025'
 target_platform:
 - win-64
