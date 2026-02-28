@@ -2,7 +2,9 @@ context:
   name: llama.cpp
   version: "6800"
   build: 0
-  touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64 and cuda_compiler_version == "12.9") else "None" }}
+  # ensure arm_variant_type gets detected as a used variable
+  touch_arm_variant_type: ${{ arm_variant_type }}
+
 
 package:
   name: ${{ name|lower }}
@@ -130,7 +132,7 @@ requirements:
     - if: cuda_compiler_version != "None"
       then:
         - ${{ compiler('cuda') }}
-        - if: linux and aarch64 and cuda_compiler_version == "12.9" and arm_variant_type != "None"
+        - if: linux and aarch64 and arm_variant_type != "None"
           then:
             - arm-variant * ${{ arm_variant_type }}
     - cmake
