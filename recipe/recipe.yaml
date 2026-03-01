@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
   version: "7880"
-  build: 0
+  build: 1
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
 
