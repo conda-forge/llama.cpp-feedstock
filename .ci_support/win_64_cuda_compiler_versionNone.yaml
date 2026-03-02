@@ -14,6 +14,8 @@ cuda_compiler_version:
 - None
 cxx_compiler:
 - vs2022
+github_actions_labels:
+- cirun-azure-windows-2xlarge
 libcurl:
 - '8'
 mkl:
