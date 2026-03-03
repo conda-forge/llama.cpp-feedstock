@@ -24,6 +24,7 @@ build:
       then: |
         # This is a hotfix for https://github.com/NVIDIA/cccl/issues/4967, backporting
         # https://github.com/NVIDIA/cccl/pull/4972 on the fly for the installed headers
+        # The fix is not necessary anymore for cccl >= 3.0.0 and CUDA >= 13.0
         {%- if match(cuda_compiler_version, "12.*") and linux and x86_64 %}
         CCCL_PREPROCESSOR_H_TO_PATCH="$PREFIX/targets/x86_64-linux/include/cuda/std/__cccl/preprocessor.h"
         {%- endif %}
