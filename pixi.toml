@@ -5,7 +5,7 @@
 
 [workspace]
 name = "llama.cpp-feedstock"
-version = "3.54.1"  # conda-smithy version used to generate this file
+version = "3.55.1"  # conda-smithy version used to generate this file
 description = "Pixi configuration for conda-forge/llama.cpp-feedstock"
 authors = ["@conda-forge/llama.cpp"]
 channels = ["conda-forge"]
@@ -41,24 +41,30 @@ description = "Build llama.cpp-feedstock with variant linux_64_c_stdlib_version2
 [tasks."inspect-linux_64_c_stdlib_version2.28cuda_compiler_version13.0"]
 cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_64_c_stdlib_version2.28cuda_compiler_version13.0.yaml"
 description = "List contents of llama.cpp-feedstock packages built for variant linux_64_c_stdlib_version2.28cuda_compiler_version13.0"
-[tasks."build-linux_aarch64_c_stdlib_version2.17cuda_compiler_version12.9"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_c_stdlib_version2.17cuda_compiler_version12.9.yaml"
-description = "Build llama.cpp-feedstock with variant linux_aarch64_c_stdlib_version2.17cuda_compiler_version12.9 directly (without setup scripts)"
-[tasks."inspect-linux_aarch64_c_stdlib_version2.17cuda_compiler_version12.9"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_c_stdlib_version2.17cuda_compiler_version12.9.yaml"
-description = "List contents of llama.cpp-feedstock packages built for variant linux_aarch64_c_stdlib_version2.17cuda_compiler_version12.9"
-[tasks."build-linux_aarch64_c_stdlib_version2.17cuda_compiler_versionNone"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_c_stdlib_version2.17cuda_compiler_versionNone.yaml"
-description = "Build llama.cpp-feedstock with variant linux_aarch64_c_stdlib_version2.17cuda_compiler_versionNone directly (without setup scripts)"
-[tasks."inspect-linux_aarch64_c_stdlib_version2.17cuda_compiler_versionNone"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_c_stdlib_version2.17cuda_compiler_versionNone.yaml"
-description = "List contents of llama.cpp-feedstock packages built for variant linux_aarch64_c_stdlib_version2.17cuda_compiler_versionNone"
-[tasks."build-linux_aarch64_c_stdlib_version2.28cuda_compiler_version13.0"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_c_stdlib_version2.28cuda_compiler_version13.0.yaml"
-description = "Build llama.cpp-feedstock with variant linux_aarch64_c_stdlib_version2.28cuda_compiler_version13.0 directly (without setup scripts)"
-[tasks."inspect-linux_aarch64_c_stdlib_version2.28cuda_compiler_version13.0"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_c_stdlib_version2.28cuda_compiler_version13.0.yaml"
-description = "List contents of llama.cpp-feedstock packages built for variant linux_aarch64_c_stdlib_version2.28cuda_compiler_version13.0"
+[tasks."build-linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9.yaml"
+description = "Build llama.cpp-feedstock with variant linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9 directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9.yaml"
+description = "List contents of llama.cpp-feedstock packages built for variant linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9"
+[tasks."build-linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone.yaml"
+description = "Build llama.cpp-feedstock with variant linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone.yaml"
+description = "List contents of llama.cpp-feedstock packages built for variant linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone"
+[tasks."build-linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0.yaml"
+description = "Build llama.cpp-feedstock with variant linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0 directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0.yaml"
+description = "List contents of llama.cpp-feedstock packages built for variant linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0"
+[tasks."build-linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9"]
+cmd = "rattler-build build --recipe recipe -m .ci_support/linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9.yaml"
+description = "Build llama.cpp-feedstock with variant linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9 directly (without setup scripts)"
+[tasks."inspect-linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9"]
+cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9.yaml"
+description = "List contents of llama.cpp-feedstock packages built for variant linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9"
 [tasks."build-osx_64_"]
 cmd = "rattler-build build --recipe recipe -m .ci_support/osx_64_.yaml"
 description = "Build llama.cpp-feedstock with variant osx_64_ directly (without setup scripts)"

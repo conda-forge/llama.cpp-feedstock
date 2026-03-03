@@ -1,7 +1,9 @@
 context:
   name: llama.cpp
   version: "7880"
-  build: 0
+  build: 1
+  # ensure arm_variant_type gets detected as a used variable
+  touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
 
 package:
   name: ${{ name|lower }}
@@ -22,12 +24,17 @@ build:
       then: |
         # This is a hotfix for https://github.com/NVIDIA/cccl/issues/4967, backporting
         # https://github.com/NVIDIA/cccl/pull/4972 on the fly for the installed headers
+        # The fix is not necessary anymore for cccl >= 3.0.0 and CUDA >= 13.0
         {%- if match(cuda_compiler_version, "12.*") and linux and x86_64 %}
         CCCL_PREPROCESSOR_H_TO_PATCH="$PREFIX/targets/x86_64-linux/include/cuda/std/__cccl/preprocessor.h"
         {%- endif %}
 
-        {%- if match(cuda_compiler_version, "12.*") and linux and aarch64 %}
+        {%- if match(cuda_compiler_version, "12.*") and linux and aarch64 and arm_variant_type == "sbsa" %}
         CCCL_PREPROCESSOR_H_TO_PATCH="$PREFIX/targets/sbsa-linux/include/cuda/std/__cccl/preprocessor.h"
+        {%- endif %}
+
+        {%- if match(cuda_compiler_version, "12.*") and linux and aarch64 and arm_variant_type == "tegra" %}
+        CCCL_PREPROCESSOR_H_TO_PATCH="$PREFIX/targets/aarch64-linux/include/cuda/std/__cccl/preprocessor.h"
         {%- endif %}
 
         {%- if match(cuda_compiler_version, "12.*") and linux %}
@@ -70,9 +77,11 @@ build:
 
         {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
-        # Exclude sm_120 (compute capability 12.0) as it doesn't support MXFP4 instructions
-        # Explicitly list all architectures except 120
-        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=80-virtual;86-real;89-real;120a-real;121a-real") }}
+        # As depending on CUDA 12, 13 or tegra the architecture that make sense are different
+        # we used them as set cuda cuda-nvcc with $CUDAARCHS, instead of hardcoding it to all
+        # Technically CUDAARCHS is automatically used by CMake for initializing the CMAKE_CUDA_ARCHITECTURES
+        # variable, but we set it explicitly for clarity
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=$CUDAARCHS") }}
         {%- endif %}
 
         {%- if linux and x86_64 and cuda_compiler_version == "None" %}
@@ -112,9 +121,7 @@ build:
 
         {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
-        :: Exclude sm_120 (compute capability 12.0) as it doesn't support MXFP4 instructions
-        :: Explicitly list all architectures except 120
-        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=80-virtual;86-real;89-real;120a-real;121a-real") }}
+        ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=%CUDAARCHS%") }}
 
         {%- else %}
 
@@ -147,6 +154,9 @@ requirements:
     - if: cuda_compiler_version != "None"
       then:
         - ${{ compiler('cuda') }}
+    - if: cuda_compiler_version != "None" and linux and aarch64
+      then:
+        - arm-variant * ${{ arm_variant_type }}
     - cmake
     - git
     - ninja
