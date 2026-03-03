@@ -22,6 +22,8 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '19'
+github_actions_labels:
+- cirun-azure-windows-2xlarge
 libcurl:
 - '8'
 llvm_openmp:
