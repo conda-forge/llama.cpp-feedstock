@@ -81,6 +81,13 @@ build:
         ${{ ggml_args("VULKAN=ON") }}
         {%- endif %}
 
+        {%- if build_platform != target_platform %}
+        # Vulkan support requires host compilers to be set in cross-compilation, see
+        # https://github.com/ggml-org/llama.cpp/blob/b8354/ggml/src/ggml-vulkan/CMakeLists.txt#L16-L26
+        ${{ cmake_args("HOST_C_COMPILER=$CC_FOR_BUILD") }}
+        ${{ cmake_args("HOST_CXX_COMPILER=$CXX_FOR_BUILD") }}
+        {%- endif %}
+
         {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
         # As depending on CUDA 12, 13 or tegra the architecture that make sense are different
