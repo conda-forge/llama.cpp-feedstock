@@ -22,18 +22,53 @@ jobs:
       max-parallel: 50
       matrix:
         include:
+          - CONFIG: linux_64_c_stdlib_version2.17cuda_compiler_version12.9
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-linux_64_c_stdlib_version2.17cuda_compil_hd7918865']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_64_c_stdlib_version2.17cuda_compiler_versionNone
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-linux_64_c_stdlib_version2.17cuda_compil_he55e7c14']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_64_c_stdlib_version2.28cuda_compiler_version13.0
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-linux_64_c_stdlib_version2.28cuda_compil_h282d3825']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-linux_aarch64_arm_variant_typesbsac_stdl_h6a4a0357']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-linux_aarch64_arm_variant_typesbsac_stdl_hb891f43d']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-linux_aarch64_arm_variant_typesbsac_stdl_h1d8a58f0']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-linux_aarch64_arm_variant_typetegrac_std_h645bfee9']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
           - CONFIG: win_64_cuda_compiler_version12.9
             UPLOAD_PACKAGES: True
             os: windows
-            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-win_64_cuda_compiler_version12.9', 'windows', 'x64', 'self-hosted']
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-win_64_cuda_compiler_version12.9']
           - CONFIG: win_64_cuda_compiler_version13.0
             UPLOAD_PACKAGES: True
             os: windows
-            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-win_64_cuda_compiler_version13.0', 'windows', 'x64', 'self-hosted']
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-win_64_cuda_compiler_version13.0']
           - CONFIG: win_64_cuda_compiler_versionNone
             UPLOAD_PACKAGES: True
             os: windows
-            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-win_64_cuda_compiler_versionNone', 'windows', 'x64', 'self-hosted']
+            runs_on: ['cirun-azure-windows-2xlarge--${{ github.run_id }}-win_64_cuda_compiler_versionNone']
     steps:
 
     - name: Checkout code
@@ -107,7 +142,7 @@ jobs:
         # default value; make it explicit, as it needs to match with artefact
         # generation below. Not configurable for now, can be revisited later
         CONDA_BLD_DIR: C:\bld
-        MINIFORGE_HOME: D:\Miniforge
+        MINIFORGE_HOME: ${{ contains(runner.arch, 'ARM') && 'C' || 'D' }}:\Miniforge
         PYTHONUNBUFFERED: 1
         CONFIG: ${{ matrix.CONFIG }}
         CI: github_actions
