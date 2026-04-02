@@ -40,23 +40,27 @@ jobs:
           - CONFIG: linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_version12.9
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+            runs_on: ['ubuntu-24.04-arm']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_arm_variant_typesbsac_stdlib_version2.17cuda_compiler_versionNone
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+            runs_on: ['ubuntu-24.04-arm']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_arm_variant_typesbsac_stdlib_version2.28cuda_compiler_version13.0
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+            runs_on: ['ubuntu-24.04-arm']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_arm_variant_typetegrac_stdlib_version2.34cuda_compiler_version12.9
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+            runs_on: ['ubuntu-24.04-arm']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
+          - CONFIG: osx_arm64_
+            UPLOAD_PACKAGES: True
+            os: macos
+            runs_on: ['macos-latest']
           - CONFIG: win_64_cuda_compiler_version12.9
             UPLOAD_PACKAGES: True
             os: windows
