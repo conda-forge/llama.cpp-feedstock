@@ -6,5 +6,5 @@ blas_impl:
   - openblas   # [linux and aarch64]
   - accelerate # [osx]
 
-github_actions_labels:
-  - cirun-azure-windows-2xlarge
+github_actions_labels:          # [win] 
+  - cirun-azure-windows-2xlarge # [win]
