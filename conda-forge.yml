@@ -4,9 +4,6 @@ bot:
   automerge: true
   version_updates:
     random_fraction_to_keep: 0.02
-build_platform:
-  linux_aarch64: linux_64
-  osx_arm64: osx_64
 conda_build:
   error_overlinking: true
 conda_build_tool: rattler-build
@@ -18,3 +15,5 @@ github:
 test: native_and_emulated
 provider:
   win_64: github_actions
+  linux_aarch64: github_actions
+  osx_arm64: github_actions
