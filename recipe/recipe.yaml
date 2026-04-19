@@ -183,6 +183,7 @@ requirements:
         - libvulkan-headers
         - libvulkan-loader
         - shaderc
+        - spirv-headers
     - if: cuda_compiler_version != "None"
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
