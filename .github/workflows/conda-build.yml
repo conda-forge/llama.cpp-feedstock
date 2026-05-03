@@ -73,17 +73,17 @@ jobs:
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: windows
-            runs_on: ['blacksmith-8vcpu-windows-2025']
+            runs_on: ['namespace-profile-8cpu-on-win-64']
           - CONFIG: win_64_cuda_compiler_version13.0
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: windows
-            runs_on: ['blacksmith-8vcpu-windows-2025']
+            runs_on: ['namespace-profile-8cpu-on-win-64']
           - CONFIG: win_64_cuda_compiler_versionNone
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: windows
-            runs_on: ['blacksmith-8vcpu-windows-2025']
+            runs_on: ['namespace-profile-8cpu-on-win-64']
     steps:
 
     - name: Checkout code
