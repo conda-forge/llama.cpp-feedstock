@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "8722"
+  version: "9010"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -183,6 +183,7 @@ requirements:
         - libvulkan-headers
         - libvulkan-loader
         - shaderc
+        - spirv-headers
     - if: cuda_compiler_version != "None"
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
