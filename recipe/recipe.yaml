@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "9222"
+  version: "9574"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: b49a83f3783d9386e01c182f31371ad12bf7320e62370885e14bdf863733683c
+  sha256: a482a5d45e291aff8eca06ee3c902f7f4af665a451feeac6dcbb504ab365b420
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
@@ -255,7 +255,6 @@ tests:
           - check_file "$PREFIX/bin/llama-perplexity" "llama-perplexity"
           - check_file "$PREFIX/bin/llama-quantize" "llama-quantize"
           - check_file "$PREFIX/bin/llama-retrieval" "llama-retrieval"
-          - check_file "$PREFIX/bin/llama-save-load-state" "llama-save-load-state"
           - check_file "$PREFIX/bin/llama-server" "llama-server"
           - check_file "$PREFIX/bin/llama-simple" "llama-simple"
           - check_file "$PREFIX/bin/llama-simple-chat" "llama-simple-chat"
@@ -338,3 +337,4 @@ extra:
     - jonashaag
     - frankier
     - pavelzw
+    - xhochy
