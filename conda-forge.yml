@@ -3,7 +3,7 @@ azure:
 bot:
   automerge: true
   version_updates:
-    random_fraction_to_keep: 0.02
+    random_fraction_to_keep: 0.2
 conda_build:
   error_overlinking: true
 conda_build_tool: rattler-build
