@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "9660"
+  version: "9668"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 5049add73b19efb55ea3971fc2b44d9c88dee6dd8daef3562cce81afdb045bc3
+  sha256: 5b78b46915082321e39adec0cd798dfa0139f27ed17a3e88cc91152972ddd2b2
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
