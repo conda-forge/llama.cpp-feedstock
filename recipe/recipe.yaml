@@ -137,6 +137,8 @@ build:
         {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=%CUDAARCHS%") }}
+        rem Silence all NVCC warnings on Windows to keep CI logs small enough for the runner disk.
+        set "NVCC_APPEND_FLAGS=-w"
 
         {%- else %}
 
