@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
   version: "10048"
-  build: 0
+  build: 1
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
 
@@ -95,6 +95,8 @@ build:
         # Technically CUDAARCHS is automatically used by CMake for initializing the CMAKE_CUDA_ARCHITECTURES
         # variable, but we set it explicitly for clarity
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=$CUDAARCHS") }}
+        # Suppress verbose NVCC template-instantiation warnings from ggml-cuda to keep CI logs small
+        export CMAKE_CUDA_FLAGS="${CMAKE_CUDA_FLAGS} -diag-suppress=221,177"
         {%- endif %}
 
         {%- if linux and x86_64 and cuda_compiler_version == "None" %}
@@ -137,6 +139,8 @@ build:
         {%- if cuda_compiler_version | default("None") != "None" %}
         ${{ ggml_args("CUDA=ON") }}
         ${{ cmake_args("CMAKE_CUDA_ARCHITECTURES=%CUDAARCHS%") }}
+        rem Suppress verbose NVCC template-instantiation warnings from ggml-cuda to keep CI logs small
+        set "CMAKE_CUDA_FLAGS=%CMAKE_CUDA_FLAGS% -diag-suppress=221,177"
 
         {%- else %}
 
