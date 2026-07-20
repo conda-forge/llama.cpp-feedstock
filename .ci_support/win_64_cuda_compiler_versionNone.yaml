@@ -21,6 +21,6 @@ libcurl:
 mkl:
 - '2026'
 shaderc:
-- '2026.2'
+- '2026.3'
 target_platform:
 - win-64

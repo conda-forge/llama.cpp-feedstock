@@ -1,5 +1,3 @@
-azure:
-  free_disk_space: true
 bot:
   automerge: true
   version_updates:
@@ -16,3 +14,5 @@ provider:
   win_64: github_actions
   linux_aarch64: github_actions
   osx_arm64: github_actions
+workflow_settings:
+  free_disk_space: quick
