@@ -11,8 +11,9 @@ github:
   tooling_branch_name: main
 test: native_and_emulated
 provider:
-  win_64: github_actions
+  win_64: azure
   linux_aarch64: github_actions
-  osx_arm64: github_actions
+  osx_64: azure
+  osx_arm64: azure
 workflow_settings:
   free_disk_space: quick
