@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
-  version: "10003"
-  build: 1
+  version: "5289"
+  build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
 
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 592a7c3ba3f8cb0fbb380b7c1be2b4bada97e6a1744c1b9d6424923d522acdc5
+  sha256: fb29717c1f675fd28bf6d5d6cf018c922055c9f5dc8ef972bea5105fd152ed0a
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
@@ -230,7 +230,6 @@ tests:
 
         # Check binaries
           - echo "Checking binary files..."
-          - check_file "$PREFIX/bin/llama" "llama"
           - check_file "$PREFIX/bin/llama-batched" "llama-batched"
           - check_file "$PREFIX/bin/llama-batched-bench" "llama-batched-bench"
           - check_file "$PREFIX/bin/llama-bench" "llama-bench"
@@ -238,10 +237,8 @@ tests:
           - check_file "$PREFIX/bin/llama-convert-llama2c-to-ggml" "llama-convert-llama2c-to-ggml"
           - check_file "$PREFIX/bin/llama-cvector-generator" "llama-cvector-generator"
           - check_file "$PREFIX/bin/llama-embedding" "llama-embedding"
-          - check_file "$PREFIX/bin/llama-diffusion-cli" "llama-diffusion-cli"
           - check_file "$PREFIX/bin/llama-eval-callback" "llama-eval-callback"
           - check_file "$PREFIX/bin/llama-export-lora" "llama-export-lora"
-          - check_file "$PREFIX/bin/llama-finetune" "llama-finetune"
           - check_file "$PREFIX/bin/llama-gen-docs" "llama-gen-docs"
           - check_file "$PREFIX/bin/llama-gguf" "llama-gguf"
           - check_file "$PREFIX/bin/llama-gguf-hash" "llama-gguf-hash"
@@ -280,7 +277,6 @@ tests:
           - check_file "$PREFIX/include/ggml-rpc.h" "ggml-rpc.h"
           - check_file "$PREFIX/include/ggml-sycl.h" "ggml-sycl.h"
           - check_file "$PREFIX/include/ggml-vulkan.h" "ggml-vulkan.h"
-          - check_file "$PREFIX/include/ggml-webgpu.h" "ggml-webgpu.h"
           - check_file "$PREFIX/include/ggml.h" "ggml.h"
           - check_file "$PREFIX/include/gguf.h" "gguf.h"
           - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
@@ -299,7 +295,7 @@ tests:
           - check_file "$PREFIX/lib/libggml-cpu${SHLIB_EXT}" "libggml-cpu${SHLIB_EXT}"
           - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
           - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
-          - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
+          - check_file "$PREFIX/lib/libmtmd_shared${SHLIB_EXT}" "libmtmd_shared${SHLIB_EXT}"
 
         # CUDA libraries
           - if: cuda_compiler_version != "None"
