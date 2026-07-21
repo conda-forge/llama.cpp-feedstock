@@ -14,8 +14,6 @@ cuda_compiler_version:
 - '13.0'
 cxx_compiler:
 - vs2022
-github_actions_labels:
-- namespace-profile-8cpu-on-win-64
 libcurl:
 - '8'
 mkl:
