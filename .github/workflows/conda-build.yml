@@ -106,6 +106,39 @@ jobs:
             resize_partitions: False
             runs_on: ['ubuntu-24.04-arm']
             tools_install_dir: ~/miniforge3
+          - CONFIG: win_64_cuda_compiler_version12.9
+            STORE_BUILD_ARTIFACTS: False
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: D:\\bld\\
+            docker_run_args: 
+            free_disk_space: quick
+            os: windows
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['namespace-profile-8cpu-on-win-64']
+            tools_install_dir: D:\Miniforge
+          - CONFIG: win_64_cuda_compiler_version13.0
+            STORE_BUILD_ARTIFACTS: False
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: D:\\bld\\
+            docker_run_args: 
+            free_disk_space: quick
+            os: windows
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['namespace-profile-8cpu-on-win-64']
+            tools_install_dir: D:\Miniforge
+          - CONFIG: win_64_cuda_compiler_versionNone
+            STORE_BUILD_ARTIFACTS: False
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: D:\\bld\\
+            docker_run_args: 
+            free_disk_space: quick
+            os: windows
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['namespace-profile-8cpu-on-win-64']
+            tools_install_dir: D:\Miniforge
     steps:
 
     - name: Checkout code
