@@ -12,6 +12,8 @@ package:
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
   sha256: 8dbefbba80091332f6c5b122913e62417180cc18453722f3a365aeda76a9b3a4
+  patches:
+    - patches/0001-subprocess-Use-alternative-for-posix_spawn_file_acti.patch
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
