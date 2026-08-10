@@ -15,7 +15,7 @@ source:
   patches:
     - if: linux
       then:
-        - patches/0001-subprocess-Use-alternative-for-posix_spawn_file_acti.patch
+        - patches/0001-vulkan-disable-spirv-opt-for-cm2-ocp.patch
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
