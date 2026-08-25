@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "10380"
+  version: "10588"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 4e3fd05eac77fa65186e6d843af502f99f857fb9df899aef2b9b1a3ef4437c4d
+  sha256: 46a79c95f6cbea2a5a956cda929a9d4624af3ce7efe76547bef45c9faad007b5
   patches:
     - if: linux
       then:
@@ -293,9 +293,9 @@ tests:
         # Check CMake configuration files
           - echo "Checking CMake configuration files..."
           - check_file "$PREFIX/lib/cmake/ggml/ggml-config.cmake" "ggml-config.cmake"
-          - check_file "$PREFIX/lib/cmake/ggml/ggml-version.cmake" "ggml-version.cmake"
+          - check_file "$PREFIX/lib/cmake/ggml/ggml-config-version.cmake" "ggml-config-version.cmake"
           - check_file "$PREFIX/lib/cmake/llama/llama-config.cmake" "llama-config.cmake"
-          - check_file "$PREFIX/lib/cmake/llama/llama-version.cmake" "llama-version.cmake"
+          - check_file "$PREFIX/lib/cmake/llama/llama-config-version.cmake" "llama-config-version.cmake"
 
         # Check libraries
           - echo "Checking library files..."
