@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "10588"
+  version: "10642"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 46a79c95f6cbea2a5a956cda929a9d4624af3ce7efe76547bef45c9faad007b5
+  sha256: 49e71ae34fc918b7e4b5470196f94e3937dc685f3d49ee6b9d224624cfef45f5
   patches:
     - if: linux
       then:
