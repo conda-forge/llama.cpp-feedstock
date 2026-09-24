@@ -1,7 +1,5 @@
-arm_variant_type:
-- sbsa
 blas_impl:
-- openblas
+- mkl
 c_compiler:
 - gcc
 c_compiler_version:
@@ -17,22 +15,23 @@ channel_targets:
 cuda_compiler:
 - cuda-nvcc
 cuda_compiler_version:
-- '13.0'
+- '13.4'
 cxx_compiler:
 - gxx
 cxx_compiler_version:
 - '15'
 docker_image:
-- quay.io/condaforge/linux-anvil-aarch64:alma10
+- quay.io/condaforge/linux-anvil-x86_64:alma10
 libcurl:
 - '8'
+mkl:
+- '2026'
 shaderc:
 - '2026.3'
 target_platform:
-- linux-aarch64
+- linux-64
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
   - c_stdlib_version
   - cuda_compiler_version
-  - arm_variant_type
