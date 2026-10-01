@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "10751"
+  version: "11266"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 1149a0f1476ccc54a7dd0b5850ab91261b6488fa2d47e48c0108238e809f0d28
+  sha256: 442928afeb4687cf562da7a34fe178e55f5bac41cd8cf8d0f7aaadb18d03ade9
   patches:
     - if: linux
       then:
@@ -194,8 +194,8 @@ requirements:
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
         - cuda-version ${{ cuda_compiler_version }}.*
-        - cuda-cudart-dev ${{ cuda_compiler_version }}.*
-        - libcublas-dev ${{ cuda_compiler_version }}.*
+        - cuda-cudart-dev
+        - libcublas-dev
 
     - if: (not osx) and (cuda_compiler_version == "None") and (blas_impl == "mkl")
       then:
