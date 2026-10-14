@@ -27,7 +27,7 @@ libcurl:
 mkl:
 - '2026'
 shaderc:
-- '2026.3'
+- '2026.4'
 target_platform:
 - linux-64
 zip_keys:
