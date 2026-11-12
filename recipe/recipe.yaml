@@ -245,12 +245,18 @@ tests:
           - check_file "$PREFIX/bin/llama-batched-bench" "llama-batched-bench"
           - check_file "$PREFIX/bin/llama-bench" "llama-bench"
           - check_file "$PREFIX/bin/llama-cli" "llama-cli"
-          - check_file "$PREFIX/bin/llama-convert-llama2c-to-ggml" "llama-convert-llama2c-to-ggml"
-          - check_file "$PREFIX/bin/llama-cvector-generator" "llama-cvector-generator"
+          # Upstream does not build these three under GGML_BACKEND_DL: they call the CPU
+          # backend directly (examples/CMakeLists.txt, tools/CMakeLists.txt)
+          - if: not (linux and x86_64 and cuda_compiler_version == "None")
+            then:
+              - check_file "$PREFIX/bin/llama-convert-llama2c-to-ggml" "llama-convert-llama2c-to-ggml"
+              - check_file "$PREFIX/bin/llama-cvector-generator" "llama-cvector-generator"
           - check_file "$PREFIX/bin/llama-embedding" "llama-embedding"
           - check_file "$PREFIX/bin/llama-diffusion-cli" "llama-diffusion-cli"
           - check_file "$PREFIX/bin/llama-eval-callback" "llama-eval-callback"
-          - check_file "$PREFIX/bin/llama-export-lora" "llama-export-lora"
+          - if: not (linux and x86_64 and cuda_compiler_version == "None")
+            then:
+              - check_file "$PREFIX/bin/llama-export-lora" "llama-export-lora"
           - check_file "$PREFIX/bin/llama-finetune" "llama-finetune"
           - check_file "$PREFIX/bin/llama-gen-docs" "llama-gen-docs"
           - check_file "$PREFIX/bin/llama-gguf" "llama-gguf"
