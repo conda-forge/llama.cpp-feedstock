@@ -111,8 +111,10 @@ build:
         # Runtime dispatch over x86_64 levels, as upstream's release archives (#68)
         ${{ ggml_args("NATIVE=OFF") }}
         ${{ ggml_args("BACKEND_DL=ON") }}
+        # No GGML_BACKEND_DIR: the backend modules install to bin/, where ggml looks
+        # (the executable's directory). A compiled-in $PREFIX path is relocated with NUL
+        # padding that ggml keeps in the path, so no module would ever load.
         ${{ ggml_args("CPU_ALL_VARIANTS=ON") }}
-        ${{ ggml_args("BACKEND_DIR=$PREFIX/lib") }}
 
         {%- endif %}
 
@@ -314,8 +316,8 @@ tests:
           - check_file "$PREFIX/lib/libggml-base${SHLIB_EXT}" "libggml-base${SHLIB_EXT}"
           - if: linux and x86_64 and cuda_compiler_version == "None"
             then:
-              - check_file "$PREFIX/lib/libggml-cpu-x64${SHLIB_EXT}" "libggml-cpu-x64${SHLIB_EXT}"
-              - check_file "$PREFIX/lib/libggml-cpu-haswell${SHLIB_EXT}" "libggml-cpu-haswell${SHLIB_EXT}"
+              - check_file "$PREFIX/bin/libggml-cpu-x64${SHLIB_EXT}" "libggml-cpu-x64${SHLIB_EXT}"
+              - check_file "$PREFIX/bin/libggml-cpu-haswell${SHLIB_EXT}" "libggml-cpu-haswell${SHLIB_EXT}"
             else:
               - check_file "$PREFIX/lib/libggml-cpu${SHLIB_EXT}" "libggml-cpu${SHLIB_EXT}"
           - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
@@ -328,7 +330,10 @@ tests:
               - check_file "$PREFIX/lib/libggml-cuda${SHLIB_EXT}" "libggml-cuda${SHLIB_EXT}"
 
         # Packaged everywhere but for CUDA builds and on linux_aarch64
-          - if: (not (linux and aarch64)) and (cuda_compiler_version == "None")
+          - if: linux and x86_64 and cuda_compiler_version == "None"
+            then:
+              - check_file "$PREFIX/bin/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
+          - if: (not linux) and (cuda_compiler_version == "None")
             then:
               - check_file "$PREFIX/lib/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
 
@@ -341,6 +346,10 @@ tests:
       - script:
           - llama-cli --help
           - llama-server --help
+          # The backends are loadable modules there: fail when none loads
+          - if: linux and x86_64
+            then:
+              - llama-cli --list-devices | grep BLAS
         requirements:
           run:
             - if: cuda_compiler_version != "None"
