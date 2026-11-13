@@ -26,8 +26,8 @@ cxx_compiler_version:
 - '15'
 docker_image:
 - quay.io/condaforge/linux-anvil-aarch64:alma10
-libcurl:
-- '8'
+openssl:
+- '3.5'
 shaderc:
 - '2026.4'
 target_platform:

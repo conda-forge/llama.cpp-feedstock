@@ -1,5 +1,5 @@
-About llama.cpp-feedstock
-=========================
+About libggml-feedstock
+=======================
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/llama.cpp-feedstock/blob/main/LICENSE.txt)
 
@@ -62,12 +62,14 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libggml-green.svg)](https://anaconda.org/conda-forge/libggml) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libggml.svg)](https://anaconda.org/conda-forge/libggml) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libggml.svg)](https://anaconda.org/conda-forge/libggml) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libggml.svg)](https://anaconda.org/conda-forge/libggml) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libllama-green.svg)](https://anaconda.org/conda-forge/libllama) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libllama.svg)](https://anaconda.org/conda-forge/libllama) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libllama.svg)](https://anaconda.org/conda-forge/libllama) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libllama.svg)](https://anaconda.org/conda-forge/libllama) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-llama.cpp-green.svg)](https://anaconda.org/conda-forge/llama.cpp) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/llama.cpp.svg)](https://anaconda.org/conda-forge/llama.cpp) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/llama.cpp.svg)](https://anaconda.org/conda-forge/llama.cpp) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/llama.cpp.svg)](https://anaconda.org/conda-forge/llama.cpp) |
 
-Installing llama.cpp
-====================
+Installing libggml
+==================
 
-Installing `llama.cpp` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `libggml` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
 
 ```
 conda config --add channels conda-forge
@@ -81,7 +83,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install llama.cpp
+conda install libggml libllama llama.cpp
 ```
 
 </details>
@@ -90,7 +92,7 @@ conda install llama.cpp
 <summary>With mamba</summary>
 
 ```
-mamba install llama.cpp
+mamba install libggml libllama llama.cpp
 ```
 
 </details>
@@ -100,9 +102,9 @@ mamba install llama.cpp
 
 ```
 # for adding to your local project
-pixi add llama.cpp
+pixi add libggml libllama llama.cpp
 # for installing globally
-pixi global install llama.cpp
+pixi global install libggml libllama llama.cpp
 ```
 
 </details>
@@ -110,13 +112,13 @@ pixi global install llama.cpp
 Search package versions
 -----------------------
 
-It is possible to list all of the versions of `llama.cpp` available on your platform:
+It is possible to list all of the versions of `libggml` available on your platform:
 
 <details>
 <summary>With conda</summary>
 
 ```
-conda search llama.cpp --channel conda-forge
+conda search libggml --channel conda-forge
 ```
 
 </details>
@@ -125,7 +127,7 @@ conda search llama.cpp --channel conda-forge
 <summary>With mamba</summary>
 
 ```
-mamba search llama.cpp --channel conda-forge
+mamba search libggml --channel conda-forge
 ```
 
 </details>
@@ -134,7 +136,7 @@ mamba search llama.cpp --channel conda-forge
 <summary>With pixi</summary>
 
 ```
-pixi search llama.cpp --channel conda-forge
+pixi search libggml --channel conda-forge
 ```
 
 </details>
@@ -144,13 +146,13 @@ pixi search llama.cpp --channel conda-forge
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search llama.cpp --channel conda-forge
+mamba repoquery search libggml --channel conda-forge
 
-# List packages depending on `llama.cpp`:
-mamba repoquery whoneeds llama.cpp --channel conda-forge
+# List packages depending on `libggml`:
+mamba repoquery whoneeds libggml --channel conda-forge
 
-# List dependencies of `llama.cpp`:
-mamba repoquery depends llama.cpp --channel conda-forge
+# List dependencies of `libggml`:
+mamba repoquery depends libggml --channel conda-forge
 ```
 
 </details>
@@ -196,17 +198,17 @@ Terminology
                   produce the finished article (built conda distributions)
 
 
-Updating llama.cpp-feedstock
-============================
+Updating libggml-feedstock
+==========================
 
-If you would like to improve the llama.cpp recipe or build a new
+If you would like to improve the libggml recipe or build a new
 package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
 `conda-forge` channel, whereupon the built conda packages will be available for
 everybody to install and use from the `conda-forge` channel.
-Note that all branches in the conda-forge/llama.cpp-feedstock are
+Note that all branches in the conda-forge/libggml-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks, and branches in the main repository should only be used to
 build distinct package versions.
