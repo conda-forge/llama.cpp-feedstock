@@ -16,10 +16,10 @@ cxx_compiler:
 - vs2022
 github_actions_labels:
 - namespace-profile-8cpu-on-win-64
-libcurl:
-- '8'
 mkl:
 - '2026'
+openssl:
+- '3.5'
 shaderc:
 - '2026.4'
 target_platform:

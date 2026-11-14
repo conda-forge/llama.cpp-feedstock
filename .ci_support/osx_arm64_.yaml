@@ -20,12 +20,12 @@ cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '21'
-libcurl:
-- '8'
 llvm_openmp:
 - '21'
 macos_machine:
 - arm64-apple-darwin20.0.0
+openssl:
+- '3.5'
 target_platform:
 - osx-arm64
 zip_keys:
