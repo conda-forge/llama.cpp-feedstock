@@ -191,17 +191,37 @@ outputs:
             cmake --install build
 
   - package:
-      name: libggml
+      name: libllama
     inherit: llama-cpp-build
     build:
-      # Compilers are repeated so the DSO checker can see the run-exports.
+      # Vendored ggml is installed next to libllama. llama-config.cmake
+      # calls find_package(ggml), and libllama links libggml.
       files:
         - if: unix
           then:
             - include/ggml*.h
             - include/gguf.h
+            - include/llama.h
+            - include/llama-cpp.h
+            - include/mtmd.h
+            - include/mtmd-helper.h
+            - include/mtmd-debug.h
             - lib/libggml*
+            - lib/libllama.so
+            - lib/libllama.so.*
+            - lib/libllama.dylib
+            - lib/libllama.*.dylib
+            - lib/libllama-common.so
+            - lib/libllama-common.so.*
+            - lib/libllama-common.dylib
+            - lib/libllama-common.*.dylib
+            - lib/libmtmd.so
+            - lib/libmtmd.so.*
+            - lib/libmtmd.dylib
+            - lib/libmtmd.*.dylib
             - lib/cmake/ggml/**
+            - lib/cmake/llama/**
+            - lib/pkgconfig/llama.pc
             - bin/vulkan-shaders-gen
             - bin/kernels/**
             - bin/*.metallib
@@ -209,12 +229,34 @@ outputs:
           then:
             - Library/include/ggml*.h
             - Library/include/gguf.h
-            - Library/lib/ggml*
-            - Library/bin/ggml*
-            - Library/lib/cmake/ggml/**
-            - Library/bin/vulkan-shaders-gen.exe
+            - Library/include/llama.h
+            - Library/include/llama-cpp.h
+            - Library/include/mtmd.h
+            - Library/include/mtmd-helper.h
+            - Library/include/mtmd-debug.h
+            - Library/bin/ggml.dll
+            - Library/bin/ggml-base.dll
+            - Library/bin/ggml-blas*
+            - Library/bin/ggml-cpu*
+            - Library/bin/ggml-cuda*
+            - Library/bin/ggml-metal*
+            - Library/bin/ggml-vulkan*
             - Library/bin/libomp.dll
             - Library/bin/LICENSE-LLVM-OpenMP
+            - Library/bin/llama.dll
+            - Library/bin/llama-common.dll
+            - Library/bin/mtmd.dll
+            - Library/bin/vulkan-shaders-gen.exe
+            - Library/lib/ggml*
+            - Library/lib/llama.lib
+            - Library/lib/llama.exp
+            - Library/lib/llama-common.lib
+            - Library/lib/llama-common.exp
+            - Library/lib/mtmd.lib
+            - Library/lib/mtmd.exp
+            - Library/lib/cmake/ggml/**
+            - Library/lib/cmake/llama/**
+            - Library/lib/pkgconfig/llama.pc
             - Library/bin/kernels/**
             - Library/bin/*.metallib
       dynamic_linking:
@@ -242,6 +284,8 @@ outputs:
       run_constraints:
         # whisper.cpp also vendors ggml
         - whisper.cpp <0.0.0a0
+      run_exports:
+        - ${{ pin_subpackage('libllama', upper_bound='x.x') }}
     tests:
       - if: unix
         then:
@@ -257,124 +301,57 @@ outputs:
                     return 1
                   fi
                 }
-              - echo "Checking ggml header files..."
-              - check_file "$PREFIX/include/ggml-alloc.h" "ggml-alloc.h"
-              - check_file "$PREFIX/include/ggml-backend.h" "ggml-backend.h"
-              - check_file "$PREFIX/include/ggml-blas.h" "ggml-blas.h"
-              - check_file "$PREFIX/include/ggml-cann.h" "ggml-cann.h"
-              - check_file "$PREFIX/include/ggml-cpp.h" "ggml-cpp.h"
-              - check_file "$PREFIX/include/ggml-cpu.h" "ggml-cpu.h"
-              - check_file "$PREFIX/include/ggml-cuda.h" "ggml-cuda.h"
-              - check_file "$PREFIX/include/ggml-metal.h" "ggml-metal.h"
-              - check_file "$PREFIX/include/ggml-openvino.h" "ggml-openvino.h"
-              - check_file "$PREFIX/include/ggml-opt.h" "ggml-opt.h"
-              - check_file "$PREFIX/include/ggml-rpc.h" "ggml-rpc.h"
-              - check_file "$PREFIX/include/ggml-sycl.h" "ggml-sycl.h"
-              - check_file "$PREFIX/include/ggml-virtgpu.h" "ggml-virtgpu.h"
-              - check_file "$PREFIX/include/ggml-vulkan.h" "ggml-vulkan.h"
-              - check_file "$PREFIX/include/ggml-webgpu.h" "ggml-webgpu.h"
-              - check_file "$PREFIX/include/ggml-zendnn.h" "ggml-zendnn.h"
+              - echo "Checking header files..."
               - check_file "$PREFIX/include/ggml.h" "ggml.h"
               - check_file "$PREFIX/include/gguf.h" "gguf.h"
-              - echo "Checking ggml libraries..."
+              - check_file "$PREFIX/include/ggml-cpu.h" "ggml-cpu.h"
+              - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
+              - check_file "$PREFIX/include/llama.h" "llama.h"
+              - check_file "$PREFIX/include/mtmd.h" "mtmd.h"
+              - check_file "$PREFIX/include/mtmd-helper.h" "mtmd-helper.h"
+              - check_file "$PREFIX/include/mtmd-debug.h" "mtmd-debug.h"
+              - echo "Checking libraries..."
+              - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
               - check_file "$PREFIX/lib/libggml-base${SHLIB_EXT}" "libggml-base${SHLIB_EXT}"
               - check_file "$PREFIX/lib/libggml-cpu${SHLIB_EXT}" "libggml-cpu${SHLIB_EXT}"
-              - check_file "$PREFIX/lib/libggml${SHLIB_EXT}" "libggml${SHLIB_EXT}"
+              - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
+              - check_file "$PREFIX/lib/libllama-common${SHLIB_EXT}" "libllama-common${SHLIB_EXT}"
+              - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
               - check_file "$PREFIX/lib/cmake/ggml/ggml-config.cmake" "ggml-config.cmake"
-              - check_file "$PREFIX/lib/cmake/ggml/ggml-config-version.cmake" "ggml-config-version.cmake"
+              - check_file "$PREFIX/lib/cmake/llama/llama-config.cmake" "llama-config.cmake"
+              - check_file "$PREFIX/lib/cmake/llama/llama-config-version.cmake" "llama-config-version.cmake"
+              - check_file "$PREFIX/lib/pkgconfig/llama.pc" "llama.pc"
               - if: linux
                 then:
                   - check_file "$PREFIX/lib/libggml-vulkan${SHLIB_EXT}" "libggml-vulkan${SHLIB_EXT}"
               - if: cuda_compiler_version != "None"
                 then:
                   - check_file "$PREFIX/lib/libggml-cuda${SHLIB_EXT}" "libggml-cuda${SHLIB_EXT}"
-              # Packaged everywhere but for CUDA builds and on linux_aarch64
               - if: (not (linux and aarch64)) and (cuda_compiler_version == "None")
                 then:
                   - check_file "$PREFIX/lib/libggml-blas${SHLIB_EXT}" "libggml-blas${SHLIB_EXT}"
-
-  - package:
-      name: libllama
-    inherit: llama-cpp-build
-    build:
-      files:
-        - if: unix
-          then:
-            - include/llama.h
-            - include/llama-cpp.h
-            - include/mtmd.h
-            - include/mtmd-helper.h
-            - include/mtmd-debug.h
-            - lib/libllama.so
-            - lib/libllama.so.*
-            - lib/libllama.dylib
-            - lib/libllama.*.dylib
-            - lib/libllama-common.so
-            - lib/libllama-common.so.*
-            - lib/libllama-common.dylib
-            - lib/libllama-common.*.dylib
-            - lib/libmtmd.so
-            - lib/libmtmd.so.*
-            - lib/libmtmd.dylib
-            - lib/libmtmd.*.dylib
-            - lib/cmake/llama/**
-            - lib/pkgconfig/llama.pc
-        - if: win
-          then:
-            - Library/include/llama.h
-            - Library/include/llama-cpp.h
-            - Library/include/mtmd.h
-            - Library/include/mtmd-helper.h
-            - Library/include/mtmd-debug.h
-            - Library/bin/llama.dll
-            - Library/lib/llama.lib
-            - Library/lib/llama.exp
-            - Library/bin/llama-common.dll
-            - Library/lib/llama-common.lib
-            - Library/lib/llama-common.exp
-            - Library/bin/mtmd.dll
-            - Library/lib/mtmd.lib
-            - Library/lib/mtmd.exp
-            - Library/lib/cmake/llama/**
-            - Library/lib/pkgconfig/llama.pc
-    requirements:
-      build:
-        - ${{ compiler('c') }}
-        - ${{ stdlib('c') }}
-        - ${{ compiler('cxx') }}
-        - if: cuda_compiler_version != "None"
-          then:
-            - ${{ compiler('cuda') }}
-      run:
-        - ${{ pin_subpackage('libggml', exact=True) }}
-    tests:
-      - if: unix
-        then:
-          - script:
-              - |
-                check_file() {
-                  local file="$1"
-                  local description="$2"
-                  if test -f "$file"; then
-                    echo "Found: $description"
-                  else
-                    echo "Missing: $description"
-                    return 1
-                  fi
-                }
-              - echo "Checking llama header files..."
-              - check_file "$PREFIX/include/llama-cpp.h" "llama-cpp.h"
-              - check_file "$PREFIX/include/llama.h" "llama.h"
-              - check_file "$PREFIX/include/mtmd.h" "mtmd.h"
-              - check_file "$PREFIX/include/mtmd-helper.h" "mtmd-helper.h"
-              - check_file "$PREFIX/include/mtmd-debug.h" "mtmd-debug.h"
-              - echo "Checking llama libraries..."
-              - check_file "$PREFIX/lib/libllama${SHLIB_EXT}" "libllama${SHLIB_EXT}"
-              - check_file "$PREFIX/lib/libllama-common${SHLIB_EXT}" "libllama-common${SHLIB_EXT}"
-              - check_file "$PREFIX/lib/libmtmd${SHLIB_EXT}" "libmtmd${SHLIB_EXT}"
-              - check_file "$PREFIX/lib/cmake/llama/llama-config.cmake" "llama-config.cmake"
-              - check_file "$PREFIX/lib/cmake/llama/llama-config-version.cmake" "llama-config-version.cmake"
-              - check_file "$PREFIX/lib/pkgconfig/llama.pc" "llama.pc"
+      - script:
+          - if: unix
+            then:
+              - cmake -S test-cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+              - cmake --build build
+              - ./build/test-cmake
+          - if: win
+            then:
+              - cmake -S test-cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+              - cmake --build build
+              - build\test-cmake.exe
+        files:
+          recipe:
+            - test-cmake/
+        requirements:
+          build:
+            - ${{ compiler('c') }}
+            - ${{ compiler('cxx') }}
+            - ${{ stdlib('c') }}
+          run:
+            - cmake
+            - ninja
 
   - package:
       name: llama.cpp
